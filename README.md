@@ -10,3 +10,5 @@ Sitio estático (HTML, CSS y JavaScript, sin dependencias) de Rugido de León, M
 Ver en local: `python3 -m http.server 8780` y abrir http://localhost:8780
 
 Publicado en Vercel: https://rugido-de-leon.vercel.app (con `noindex`, mientras sea borrador).
+
+El proyecto de Vercel está conectado a este repositorio: cada commit a `main` se publica solo.
