@@ -1,0 +1,303 @@
+/* Rugido de León. Colores: paleta/roles-de-color.md (tinta oficial #1D214F, 19/11/2026). Tipografía: tipografia/escala-tipografica.md */
+@font-face{font-family:"Libre Baskerville";src:url("fonts/LibreBaskerville-Variable.ttf") format("truetype");font-weight:400 700;font-display:swap}
+@font-face{font-family:"Barlow";src:url("fonts/Barlow-Medium.ttf") format("truetype");font-weight:500;font-display:swap}
+@font-face{font-family:"Barlow";src:url("fonts/Barlow-SemiBold.ttf") format("truetype");font-weight:600;font-display:swap}
+@font-face{font-family:"Barlow Condensed";src:url("fonts/BarlowCondensed-SemiBold.ttf") format("truetype");font-weight:600;font-display:swap}
+
+:root{
+  --medianoche:#0F1633; --bordo:#3A1022; --blanco:#FFFFFF;
+  --azul-tinta:#1D214F; --azul-vivo:#2F4590; --violeta:#79318D; --boton:#5C2E85; --boton-hover:#6B3896; --boton-activo:#4D2672;
+  --texto:var(--azul-tinta); --texto2:#4F577F; --crema:#F1EBDF; --foco:#E6D0F3;
+  --rosado-claro:#E6D0D8; --rosado-medio:#D8B7C4; --gris-mapa:#DADDEB; --lavanda:#E7E2EE; --lila-aviso:#F4EEFA;
+  --serif:"Libre Baskerville",Baskerville,Georgia,serif;
+  --sans:"Barlow","Helvetica Neue",Arial,sans-serif;
+  --cond:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --fs-display:clamp(2.25rem,4.4vw,3.6rem);
+  --fs-h1:clamp(1.9rem,3.2vw,2.75rem);
+  --fs-h2:clamp(1.6rem,2.6vw,2.25rem);
+  --fs-precio:clamp(2.4rem,4vw,3.25rem);
+  --fs-lead:clamp(1.0625rem,1.5vw,1.3125rem);
+  --fs-cuerpo:1.0625rem; --fs-legal:.875rem;
+  --ease:cubic-bezier(.23,1,.32,1);
+  --b-alto:77.8vh; --b-base:9.8vh;            /* botella: alto y distancia al borde inferior */
+  --b-top:calc(100vh - var(--b-base) - var(--b-alto));
+  --pad-x:clamp(24px,6.7vw,96px);
+  --lado:clamp(40px,5.5vw,80px);              /* margen lateral de la pila de tarjetas: deja ver el fondo */
+  --radio:40px;
+  --padc:clamp(24px,5.4vw,80px);
+  --h-cierre:0px;
+  --acc:var(--violeta);
+}
+.acc-violeta{--acc:var(--violeta)}
+.acc-azul{--acc:var(--azul-vivo)}
+.acc-bordo{--acc:var(--bordo)}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--medianoche);color:var(--texto);font:500 var(--fs-cuerpo)/1.6 var(--sans);overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--foco);outline-offset:3px;border-radius:6px}
+.card :focus-visible{outline-color:var(--acc)}
+.card--foto :focus-visible{outline-color:var(--foco)}
+.skip{position:absolute;left:-999px;top:8px;background:#fff;color:var(--texto);padding:10px 16px;border-radius:8px;z-index:100}
+.skip:focus{left:8px}
+.vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ---- fondo continuo: una sola imagen que se desplaza más lento que el contenido ---- */
+.bg{position:fixed;inset:0;overflow:hidden;z-index:-1;background:var(--medianoche)}
+.bg img{position:absolute;left:0;top:0;width:100%;height:max(calc(100vw * 2752 / 1536),130dvh);object-fit:cover;object-position:center top}
+.bg::after{content:"";position:absolute;inset:0;background:rgba(15,22,51,.34)}
+
+/* ---- tramo: de la entrada hasta el final de mayoristas. La botella acompaña y queda clavada al final ---- */
+.tramo{position:relative}
+.riel{position:absolute;left:0;right:0;top:0;bottom:calc(var(--h-cierre) + 6dvh);pointer-events:none;z-index:5}
+.botella{position:sticky;top:var(--b-top);height:var(--b-alto);width:fit-content;margin:0 auto;transition:opacity .35s ease}
+.botella img{height:100%;width:auto;display:block}
+.botella::after{content:"";position:absolute;left:50%;bottom:-1.2vh;width:150%;height:3.2vh;transform:translateX(-50%);background:radial-gradient(ellipse at center,rgba(0,0,0,.42),rgba(0,0,0,0) 68%);z-index:-1}
+.botella.off{opacity:0}
+
+/* ---- hero (home a pantalla completa) ---- */
+.hero{position:relative;isolation:isolate;min-height:100dvh;color:var(--crema);display:flex;flex-direction:column;justify-content:center;padding:0 var(--pad-x)}
+.hero__fondo{position:absolute;inset:0;overflow:hidden;z-index:-1}
+.hero__fondo::after{content:"";position:absolute;inset:0;background:rgba(15,22,51,.28)}
+.capa{position:absolute;inset:0;display:block;background:url("assets/hero-escritorio.jpg") center bottom/cover no-repeat}
+/* viento: dos capas con la misma foto, recortadas a la zona de los árboles */
+.viento{
+  -webkit-mask-image:linear-gradient(to right,#000 0,#000 30%,transparent 42%),linear-gradient(to bottom,transparent 4%,#000 11%,#000 42%,transparent 51%);
+  mask-image:linear-gradient(to right,#000 0,#000 30%,transparent 42%),linear-gradient(to bottom,transparent 4%,#000 11%,#000 42%,transparent 51%);
+  -webkit-mask-composite:source-in;mask-composite:intersect}
+.viento--tronco{transform-origin:18% 50%}
+.viento--hojas{transform-origin:18% 30%;
+  -webkit-mask-image:linear-gradient(to right,#000 0,#000 30%,transparent 42%),linear-gradient(to bottom,transparent 4%,#000 10%,#000 32%,transparent 40%);
+  mask-image:linear-gradient(to right,#000 0,#000 30%,transparent 42%),linear-gradient(to bottom,transparent 4%,#000 10%,#000 32%,transparent 40%)}
+.hero::before{content:"";position:absolute;inset:0 0 auto 0;height:170px;background:linear-gradient(rgba(15,22,51,.62),rgba(15,22,51,0));pointer-events:none;z-index:-1}
+.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:150px;background:linear-gradient(rgba(15,22,51,0),rgba(15,22,51,.6));pointer-events:none;z-index:-1}
+.nav{position:absolute;z-index:1;top:14px;left:0;right:0;display:flex;justify-content:center;gap:clamp(24px,4vw,64px);font:600 1.0625rem/1 var(--sans)}
+.nav a{text-decoration:none;display:inline-flex;align-items:center;min-height:44px;padding:0 6px}
+.nav a:hover{text-decoration:underline;text-underline-offset:.3em}
+.hero__grid{position:relative;z-index:1;display:grid;grid-template-columns:1fr minmax(240px,22vw) 1fr;align-items:center}
+.hero__titulo{margin:0;font:700 var(--fs-display)/1.25 var(--serif);letter-spacing:-.01em}
+.hero__cta{grid-column:3;display:flex;align-items:center;gap:24px;justify-content:flex-end;flex-wrap:wrap}
+.hero__texto{margin:0;font:500 clamp(1.0625rem,1.6vw,1.375rem)/1.4 var(--sans)}
+.hero__legal{z-index:1;position:absolute;left:var(--pad-x);bottom:24px;margin:0;font-size:var(--fs-legal);color:var(--lavanda)}
+
+/* ---- botón con animación ---- */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 28px;border:0;border-radius:999px;background:var(--boton);color:#fff;font:600 1.125rem/1 var(--sans);letter-spacing:.01em;text-decoration:none;cursor:pointer;white-space:nowrap;transition:background .2s ease,transform .2s var(--ease)}
+.btn:hover{background:var(--boton-hover)}
+.btn:active{background:var(--boton-activo);transform:scale(.97)}
+.btn--sec{background:transparent;color:inherit;box-shadow:inset 0 0 0 2px currentColor}
+.btn--wa::after{content:"\2192";display:inline-block}
+
+/* ---- pila de tarjetas: más angosta que la pantalla (se ve el fondo), pegadas entre sí (sin huecos verticales) ---- */
+.pila{position:relative;margin:0 var(--lado);border-radius:var(--radio) var(--radio) 0 0;overflow:hidden;box-shadow:0 14px 44px rgba(0,0,0,.5)}
+.card{position:relative;isolation:isolate;background:var(--blanco);color:var(--texto);min-height:96dvh;display:flex;flex-direction:column;justify-content:center;padding:clamp(48px,7vw,96px) var(--padc)}
+.card__grid{display:grid;grid-template-columns:1fr minmax(240px,22vw) 1fr;align-items:center;position:relative}
+.col{display:flex;flex-direction:column;gap:22px}
+.col--der{padding-left:clamp(0px,1vw,16px)}
+.mbotella{display:none}
+
+/* ---- título con la foto de fondo adentro de las letras (la misma imagen y el mismo desplazamiento que el fondo) ---- */
+.titulo-marca{display:grid;grid-template-columns:1fr minmax(240px,22vw) 1fr;margin-bottom:clamp(28px,4.5vw,64px)}
+.h-foto{display:block;font:700 min(6.2rem,calc((100vw - 2*var(--lado) - 2*var(--padc) - max(240px,22vw))/11.6))/1.1 var(--serif);letter-spacing:.01em}
+.h-foto--izq{grid-column:1;text-align:right;padding-right:clamp(8px,1.5vw,28px)}
+.h-foto--der{grid-column:3;text-align:left;padding-left:clamp(8px,1.5vw,28px)}
+.h-foto{
+  color:transparent;-webkit-text-fill-color:transparent;
+  background-image:linear-gradient(rgba(15,22,51,.6),rgba(15,22,51,.6)),url("assets/fondo.jpg");
+  background-repeat:no-repeat;background-attachment:fixed;
+  background-size:100% 100%,max(100vw,calc(130dvh*1400/2508)) auto;
+  background-position:0 0,50% var(--bgy,0px);
+  -webkit-background-clip:text;background-clip:text}
+
+/* ---- dibujos de vino solo en los bordes de cada tarjeta (se cortan con el borde) ---- */
+.card::before,.card::after{content:"";position:absolute;top:0;bottom:0;width:clamp(56px,7vw,100px);background:url("assets/borde-a.svg") 0 0/auto 1500px repeat-y;pointer-events:none;z-index:-1}
+.card::before{left:0}
+.card::after{right:0;transform:scaleX(-1);background-image:url("assets/borde-b.svg")}
+.pila>.card:nth-child(2)::before{background-position:0 -380px}.pila>.card:nth-child(2)::after{background-position:0 -700px}
+.pila>.card:nth-child(3)::before{background-position:0 -760px}.pila>.card:nth-child(3)::after{background-position:0 -200px}
+.pila>.card:nth-child(4)::before{background-position:0 -1100px}.pila>.card:nth-child(4)::after{background-position:0 -520px}
+
+/* ---- tipografía ---- */
+.display{margin:0;font:700 var(--fs-display)/1.25 var(--serif);color:var(--acc)}
+.card .display{font-size:clamp(2rem,3.5vw,3.1rem)}
+.h1{margin:0;font:700 var(--fs-h1)/1.3 var(--serif);color:var(--acc)}
+.h1--chico{font-size:clamp(1.6rem,2.4vw,2.25rem)}
+.h2{margin:0;font:700 var(--fs-h2)/1.25 var(--serif);color:var(--acc)}
+.lead{margin:0;font:500 var(--fs-lead)/1.5 var(--sans);max-width:34ch;color:var(--texto2)}
+.cuerpo{margin:0;max-width:40ch;color:var(--texto2)}
+.detalle{font:600 .9375rem/1.2 var(--cond);text-transform:uppercase;letter-spacing:.18em}
+.filete{display:block;width:96px;height:4px;background:var(--acc);border-radius:2px}
+
+/* ---- oferta ---- */
+.precios{margin:0;display:flex;flex-direction:column}
+.precios>div{border-top:1px solid rgba(29,33,79,.25);padding:20px 0;display:flex;flex-direction:column-reverse}
+.precios dd,.precios dt{margin:0}
+.precio{font:700 var(--fs-precio)/1.1 var(--serif);color:var(--acc);font-variant-numeric:lining-nums}
+.precios .detalle{color:var(--texto2);margin-top:6px;display:block}
+
+/* ---- comprar y envíos ---- */
+.pasos{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:30px}
+.pasos li{display:flex;gap:18px;align-items:flex-start}
+.paso__n{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--acc);color:#fff;font:700 1.5rem/1 var(--serif)}
+.pasos strong{display:block;font:700 1.25rem/1.3 var(--serif);color:var(--texto)}
+.pasos span:not(.paso__n){display:block;color:var(--texto2);font-size:1.0625rem}
+.envios{list-style:none;margin:0;padding:0}
+.envios li{border-top:1px solid rgba(29,33,79,.25);padding:18px 0}
+.envios strong{display:block;font:700 1.25rem/1.3 var(--serif);margin-bottom:6px;color:var(--texto)}
+.envios span{color:var(--texto2);max-width:38ch;display:block}
+.suc__t{font:700 1.25rem/1.3 var(--serif);margin:22px 0 8px;color:var(--texto)}
+.sucursales{list-style:none;margin:0 0 24px;padding:0;color:var(--texto2);font-size:var(--fs-legal)}
+.sucursales li{border-top:1px solid rgba(29,33,79,.25);padding:9px 0;line-height:1.4}
+.sucursales strong{color:var(--texto);font-weight:600;margin-right:6px}
+.col--der>.btn{align-self:flex-start;margin-top:12px}
+
+/* ---- origen ---- */
+.origen{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
+.origen .cuerpo{flex:1 1 200px;max-width:28ch;font-size:1rem}
+.origen__mapa{margin:0;flex:0 0 clamp(96px,9vw,128px)}
+.mapa{width:100%;height:auto;overflow:visible}
+.mapa__prov path{fill:var(--gris-mapa);stroke:#fff;stroke-width:1.6;stroke-linejoin:round}
+.mapa__mza{fill:var(--violeta);stroke:#fff;stroke-width:1.6;stroke-linejoin:round}
+.mapa__pt-o{fill:#fff}.mapa__pt-i{fill:var(--crema);stroke:var(--violeta);stroke-width:3}
+.mapa__lbl{font:600 26px var(--sans);fill:var(--texto);stroke:#fff;stroke-width:6px;paint-order:stroke;stroke-linejoin:round}
+.origen__mapa figcaption{display:flex;align-items:center;gap:8px;font:600 .875rem var(--sans);margin-top:8px}
+.leyenda{width:12px;height:12px;border-radius:3px;background:var(--violeta)}
+.ficha{margin:0;display:flex;flex-direction:column}
+.ficha>div{border-top:1px solid rgba(29,33,79,.25);padding:14px 0;display:flex;flex-direction:column-reverse}
+.ficha dd{margin:0;font:700 clamp(1.8rem,3vw,2.5rem)/1.15 var(--serif);color:var(--acc);font-variant-numeric:lining-nums}
+.ficha dt{margin-top:4px;color:var(--texto2)}
+.ficha--dos{display:grid;grid-template-columns:1fr 1fr;column-gap:clamp(16px,2vw,28px)}
+.ficha--dos dd{font-size:clamp(1.2rem,1.9vw,1.65rem);line-height:1.25}
+.ficha--dos .ancho{grid-column:1/-1}
+.ficha--dos dd.chica{font-size:clamp(1rem,1.4vw,1.2rem);font-family:var(--sans);font-weight:600;color:var(--texto)}
+.notas{list-style:none;margin:6px 0 0;padding:0}
+.notas li{border-top:1px solid rgba(29,33,79,.25);padding:14px 0;font:700 clamp(1.1rem,1.6vw,1.4rem)/1.3 var(--serif);color:var(--acc);display:flex;flex-direction:column;gap:4px}
+.notas .detalle{color:var(--texto2);font-family:var(--cond)}
+.nota{margin:4px 0 0;font-size:var(--fs-legal);color:var(--texto2)}
+
+/* ---- mayoristas ---- */
+.lista-may{list-style:none;margin:0;padding:0}
+.lista-may li{border-top:1px solid rgba(29,33,79,.25);padding:18px 0;font:600 1.25rem/1.35 var(--sans);max-width:30ch;color:var(--texto)}
+
+/* ---- espacio para la foto de clientes ---- */
+.foto-hueco{margin:0;aspect-ratio:4/5;width:100%;max-width:420px;border:2px dashed var(--acc);border-radius:28px;background:var(--lila-aviso);display:grid;place-items:center;text-align:center;padding:24px;color:var(--acc)}
+
+/* ---- cierre: tarjeta con foto (la botella ya viene en la foto) ---- */
+.card--foto{color:var(--crema);height:var(--h-cierre);min-height:0;background:var(--medianoche);padding-top:0;padding-bottom:0}
+.card__foto{position:absolute;inset:0;background:var(--medianoche) center/cover no-repeat}
+.card__foto.lista{background-image:linear-gradient(rgba(15,22,51,.34),rgba(15,22,51,.34)),url("assets/cierre.jpg")}
+.cierre{position:relative;display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+.card--foto .display{color:var(--crema)}
+.card--foto .lead{color:var(--lavanda)}
+.telefono{margin:8px 0 0;font:700 clamp(1.6rem,2.6vw,2.25rem)/1.2 var(--serif)}
+.cierre .btn{margin-top:8px}
+
+/* ---- pie: toda la foto de la cordillera es el pie. Solo blanco y negro ---- */
+.pie{position:relative;z-index:1;background:#000 url("assets/pie-andes.jpg") center/cover no-repeat;color:#fff;overflow:hidden;isolation:isolate}
+.pie::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(rgba(0,0,0,.66),rgba(0,0,0,.42) 55%,rgba(0,0,0,.3))}
+.pie__top{display:grid;grid-template-columns:1.5fr 1fr 1.1fr;gap:clamp(32px,5vw,80px);align-items:start;padding:clamp(56px,7vw,104px) var(--pad-x) clamp(24px,3vw,48px)}
+.pie__lema{margin:0 0 28px;font:600 clamp(2rem,3.4vw,3.2rem)/1.05 var(--cond);text-transform:uppercase;letter-spacing:.04em;color:#fff;max-width:16ch}
+.pie__marca .btn{margin-bottom:28px}
+.pie .btn{background:rgba(79,110,34,.55);color:#fff;border-radius:12px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.pie .btn:hover{background:rgba(79,110,34,.75)}
+.pie .btn:active{background:rgba(56,80,21,.85)}
+.pie__legal{margin:0;max-width:48ch;font-size:var(--fs-legal);line-height:1.7;color:#fff;opacity:.85}
+.pie h2{margin:0 0 14px;color:#fff;font-size:1.125rem;font-weight:700;letter-spacing:.2em}
+.pie__col .pie__lista+h2{margin-top:44px}
+.pie__lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;color:#fff}
+.pie__lista a{display:inline-flex;align-items:center;min-height:44px;font:600 1.0625rem/1.3 var(--sans);color:#fff;text-decoration:none}
+.pie__lista a:hover{text-decoration:underline;text-underline-offset:.25em}
+.pie__lista--suc{gap:22px}
+.pie__lista--suc li{font-size:var(--fs-legal);line-height:1.5;opacity:.9}
+.pie__lista--suc strong{display:block;color:#fff;font:600 1.0625rem/1.4 var(--sans)}
+.pie :focus-visible{outline-color:#fff}
+.pie__andes{position:relative;height:clamp(220px,27vw,430px)}
+.pie__nombre{position:absolute;left:0;right:0;bottom:0;margin:0;transform:translateY(3%);text-align:center;white-space:nowrap;font:700 15.3vw/.84 var(--serif);letter-spacing:.005em;color:rgba(255,255,255,.95);text-shadow:0 2px 40px rgba(0,0,0,.35);user-select:none}
+.pie__nombre span{display:block}
+
+/* ---- aviso de edad ---- */
+.edad{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:rgba(15,22,51,.92);padding:24px}
+.edad[hidden]{display:none}
+.edad__caja{background:var(--blanco);color:var(--texto);border-radius:40px;padding:clamp(28px,5vw,48px);max-width:520px;text-align:center}
+.edad__caja h2{margin:0 0 12px;font:700 1.75rem/1.25 var(--serif)}
+.edad__caja p{margin:0 0 24px;color:var(--texto2)}
+.edad__botones{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.edad__nota{margin:20px 0 0!important;color:var(--texto)!important;font-weight:600}
+.edad .btn--sec{color:var(--texto)}
+
+/* ---- animaciones (solo si el visitante no pidió menos movimiento) ---- */
+@media (prefers-reduced-motion:no-preference){
+  /* viento en los árboles del hero */
+  .viento{will-change:transform}
+  .viento--tronco{animation:balanceo 7s ease-in-out infinite alternate}
+  .viento--hojas{animation:hojas 2.6s ease-in-out infinite alternate}
+  @keyframes balanceo{0%{transform:skewX(-.8deg)}100%{transform:skewX(1.3deg)}}
+  @keyframes hojas{0%{transform:translate3d(-2.4px,.8px,0) skewX(-.4deg)}100%{transform:translate3d(2.6px,-.9px,0) skewX(.5deg)}}
+  /* bloques: cada hijo entra escalonado */
+  .reveal>*{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease),transform .6s var(--ease);transition-delay:calc(var(--i,0)*90ms)}
+  .reveal.in>*{opacity:1;transform:none}
+  .reveal>:is(.display,.h1,.h2){opacity:1;transform:none;transition:none}
+  /* títulos: cada línea sube desde una máscara */
+  .ln{display:block;overflow:hidden;padding-bottom:.14em;margin-bottom:-.14em}
+  .ln>span{display:block;transform:translateY(108%);transition:transform .85s var(--ease);transition-delay:calc(var(--l,0)*110ms)}
+  .reveal.in .ln>span,.listo #inicio .ln>span{transform:none}
+  /* entrada del hero */
+  .hero__cta>*{opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .6s var(--ease);transition-delay:calc(.45s + var(--i,0)*100ms)}
+  .listo #inicio .hero__cta>*{opacity:1;transform:none}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.botella{transition:none}}
+
+/* ---- celular ---- */
+@media (max-width:860px){
+  :root{--b-alto:39dvh;--b-base:22.4dvh;--b-top:calc(100dvh - var(--b-base) - var(--b-alto));--pad-x:24px;--lado:14px;--radio:28px;--padc:22px;--h-cierre:0px}
+  .capa{background-image:url("assets/hero-celular.jpg")}
+  .hero__fondo::after{background:rgba(15,22,51,.12)}
+  .hero{justify-content:flex-start;padding:84px var(--pad-x) 0;color:var(--medianoche)}
+  .hero::before{display:none}
+  /* viento en el celular: los álamos están más abajo en la foto vertical */
+  .viento{
+    -webkit-mask-image:linear-gradient(to right,transparent 10%,#000 17%,#000 44%,transparent 52%),linear-gradient(to bottom,transparent 55%,#000 61%,#000 70%,transparent 76%);
+    mask-image:linear-gradient(to right,transparent 10%,#000 17%,#000 44%,transparent 52%),linear-gradient(to bottom,transparent 55%,#000 61%,#000 70%,transparent 76%)}
+  .viento--tronco{transform-origin:30% 74%}
+  .viento--hojas{transform-origin:30% 66%;
+    -webkit-mask-image:linear-gradient(to right,transparent 10%,#000 17%,#000 44%,transparent 52%),linear-gradient(to bottom,transparent 55%,#000 60%,#000 66%,transparent 72%);
+    mask-image:linear-gradient(to right,transparent 10%,#000 17%,#000 44%,transparent 52%),linear-gradient(to bottom,transparent 55%,#000 60%,#000 66%,transparent 72%)}
+  .nav{justify-content:space-between;padding:0 20px;gap:8px;font-size:.9375rem;top:16px;color:var(--medianoche)}
+  .nav a{padding:0 2px}
+  .hero__grid{position:static;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+  .hero__cta{display:contents}
+  .hero__texto{order:2;color:var(--texto)}
+  .hero .btn{position:absolute;z-index:2;left:var(--pad-x);right:var(--pad-x);bottom:84px}
+  .hero__legal{left:var(--pad-x);right:var(--pad-x);text-align:center;color:var(--crema);bottom:18px;font-size:.8125rem;line-height:1.4}
+  /* la botella fija acompaña solo la entrada; en las tarjetas va una propia */
+  .riel{bottom:auto;height:100dvh}
+  .card{min-height:0;padding:36px 22px 44px;flex-direction:column-reverse}
+  .card--foto{flex-direction:column;justify-content:flex-end;padding:0 22px 40px}
+  .card__foto{background-position:68% center}
+  .card__grid{grid-template-columns:1fr;gap:22px}
+  .col__centro{display:none}
+  .mbotella{display:block;height:min(46dvh,340px);width:auto;margin:6px auto 0;order:-1}
+  .col--der{padding-left:0}
+  .lead,.cuerpo,.lista-may li,.envios span{max-width:none}
+  .precios{flex-direction:row;gap:16px}.precios>div{flex:1}
+  .origen__mapa{flex-basis:140px}
+  .col .btn,.cierre .btn{width:100%}
+  .card::before,.card::after{width:34px;background-size:auto 900px}
+  .titulo-marca{display:block;order:1;margin-bottom:0}
+  .h-foto{font-size:clamp(2.4rem,13.2vw,4rem);text-align:left!important;padding:0!important;line-height:1.05}
+  .pie__top{grid-template-columns:minmax(0,1fr)}
+  .pie .btn{white-space:normal;text-align:center;min-height:52px;padding:12px 20px;line-height:1.25}
+  .pie__andes{height:64vw}
+  .pie__nombre{font-size:19vw;white-space:normal;padding:0 12px;transform:none;bottom:8px;line-height:.98}
+}
+
+/* ---- páginas legales ---- */
+.legal-body{background:var(--medianoche)}
+.legal{max-width:760px;margin:56px auto;padding:clamp(28px,5vw,56px);background:var(--blanco);color:var(--texto);border-radius:40px;box-shadow:0 14px 44px rgba(0,0,0,.5)}
+.legal h1{margin:0 0 8px;font:700 clamp(1.7rem,3.4vw,2.4rem)/1.25 var(--serif)}
+.legal h2{margin:32px 0 8px;font:700 1.25rem/1.3 var(--serif)}
+.legal p,.legal li{color:var(--texto2);max-width:68ch}
+.legal ul{padding-left:1.2em}
+.legal__aviso{margin:0 0 28px;padding:14px 18px;border-radius:14px;background:var(--lila-aviso);color:var(--texto)!important;font-weight:600}
+.legal__volver{display:inline-flex;align-items:center;min-height:44px;margin-bottom:12px;font-weight:600;color:var(--boton)}
