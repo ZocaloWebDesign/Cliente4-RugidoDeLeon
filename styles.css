@@ -56,7 +56,7 @@ p,li{text-wrap:pretty}
 /* ---- tramo: de la entrada hasta el final de mayoristas. La botella acompaña y queda clavada al final ---- */
 .tramo{position:relative}
 .riel{position:absolute;left:0;right:0;top:0;bottom:calc(var(--h-cierre) + 6dvh);pointer-events:none;z-index:5}
-.botella{position:sticky;top:var(--b-top);height:var(--b-alto);width:fit-content;margin:0 auto;transition:opacity .35s ease}
+.botella{position:sticky;top:var(--b-top);height:var(--b-alto);width:fit-content;margin:0 auto;transition:opacity .25s ease}
 .botella img{height:100%;width:auto;display:block}
 .botella::after{content:"";position:absolute;left:50%;bottom:-1.2vh;width:150%;height:3.2vh;transform:translateX(-50%);background:radial-gradient(ellipse at center,rgba(0,0,0,.42),rgba(0,0,0,0) 68%);z-index:-1}
 .botella.off{opacity:0}
@@ -79,7 +79,7 @@ p,li{text-wrap:pretty}
 .hero::after{content:"";position:absolute;inset:auto 0 0 0;height:150px;background:linear-gradient(rgba(15,22,51,0),rgba(15,22,51,.6));pointer-events:none;z-index:-1}
 .nav{position:absolute;z-index:1;top:14px;left:0;right:0;display:flex;justify-content:center;gap:clamp(24px,4vw,64px);font:600 1.0625rem/1 var(--sans)}
 .nav a{text-decoration:none;display:inline-flex;align-items:center;min-height:44px;padding:0 6px}
-.nav a:hover{text-decoration:underline;text-underline-offset:.3em}
+@media (hover:hover) and (pointer:fine){.nav a:hover{text-decoration:underline;text-underline-offset:.3em}}
 .hero__grid{position:relative;z-index:1;display:grid;grid-template-columns:1fr minmax(240px,22vw) 1fr;align-items:center}
 .hero__titulo{margin:0;font:700 var(--fs-display)/1.25 var(--serif);letter-spacing:-.01em}
 .hero__cta{grid-column:3;display:flex;align-items:center;gap:24px;justify-content:flex-end;flex-wrap:wrap}
@@ -87,9 +87,9 @@ p,li{text-wrap:pretty}
 .hero__legal{z-index:1;position:absolute;left:var(--pad-x);bottom:24px;margin:0;font-size:var(--fs-legal);color:var(--lavanda)}
 
 /* ---- botón con animación ---- */
-.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 28px;border:0;border-radius:999px;background:var(--boton);color:#fff;font:600 1.125rem/1 var(--sans);letter-spacing:.01em;text-decoration:none;cursor:pointer;white-space:nowrap;touch-action:manipulation;transition:background .2s ease,transform .35s cubic-bezier(.34,1.56,.64,1)}
-.btn:hover{background:var(--boton-hover)}
-.btn:active{background:var(--boton-activo);transform:translateY(1px) scale(.975);transition-duration:.08s}
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 28px;border:0;border-radius:999px;background:var(--boton);color:#fff;font:600 1.125rem/1 var(--sans);letter-spacing:.01em;text-decoration:none;cursor:pointer;white-space:nowrap;touch-action:manipulation;transition:background-color .16s ease,transform .16s var(--ease)}
+@media (hover:hover) and (pointer:fine){.btn:hover{background:var(--boton-hover)}}
+.btn:active{background:var(--boton-activo);transform:scale(.97);transition-duration:.1s}
 .btn--sec{background:transparent;color:inherit;box-shadow:inset 0 0 0 2px currentColor}
 .btn--wa::after{content:"\2192";display:inline-block}
 
@@ -214,7 +214,7 @@ p,li{text-wrap:pretty}
 .pie__lema{margin:0 0 28px;font:600 clamp(2rem,3.4vw,3.2rem)/1.05 var(--cond);text-transform:uppercase;letter-spacing:.04em;color:#fff;max-width:16ch}
 .pie__marca .btn{margin-bottom:28px}
 .pie .btn{background:rgba(79,110,34,.55);color:#fff;border-radius:12px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
-.pie .btn:hover{background:rgba(79,110,34,.75)}
+@media (hover:hover) and (pointer:fine){.pie .btn:hover{background:rgba(79,110,34,.75)}}
 .pie .btn:active{background:rgba(56,80,21,.85)}
 .pie__legal{margin:0;max-width:48ch;font-size:var(--fs-legal);line-height:1.7;color:#fff;opacity:.85}
 .pie h2{margin:0 0 14px;color:#fff;font-size:1.125rem;font-weight:700;letter-spacing:.2em}
@@ -222,7 +222,7 @@ p,li{text-wrap:pretty}
 .pie__lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;color:#fff}
 .pie__lista a{display:inline-flex;align-items:center;min-height:44px;font:600 1.0625rem/1.3 var(--sans);color:#fff;text-decoration:none}
 .pie__lista a{text-decoration:underline;text-decoration-color:transparent;text-underline-offset:.28em;transition:text-decoration-color .25s ease}
-.pie__lista a:hover{text-decoration-color:currentColor}
+@media (hover:hover) and (pointer:fine){.pie__lista a:hover{text-decoration-color:currentColor}}
 .pie__lista--suc{gap:22px}
 .pie__lista--suc li{font-size:var(--fs-legal);line-height:1.5;opacity:.9}
 .pie__lista--suc strong{display:block;color:#fff;font:600 1.0625rem/1.4 var(--sans)}
@@ -234,6 +234,8 @@ p,li{text-wrap:pretty}
 /* ---- aviso de edad ---- */
 .edad{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:rgba(15,22,51,.92);padding:24px}
 .edad[hidden]{display:none}
+.edad{transition:opacity .18s var(--ease)}
+.edad.saliendo{opacity:0;pointer-events:none}
 .edad__caja{background:var(--blanco);color:var(--texto);border-radius:40px;padding:clamp(28px,5vw,48px);max-width:520px;text-align:center}
 .edad__caja h2{margin:0 0 12px;font:700 1.75rem/1.25 var(--serif)}
 .edad__caja p{margin:0 0 24px;color:var(--texto2)}
@@ -250,15 +252,15 @@ p,li{text-wrap:pretty}
   @keyframes balanceo{0%{transform:skewX(-.8deg)}100%{transform:skewX(1.3deg)}}
   @keyframes hojas{0%{transform:translate3d(-2.4px,.8px,0) skewX(-.4deg)}100%{transform:translate3d(2.6px,-.9px,0) skewX(.5deg)}}
   /* bloques: cada hijo entra escalonado */
-  .reveal>*{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease),transform .6s var(--ease);transition-delay:calc(var(--i,0)*90ms)}
+  .reveal>*{opacity:0;transform:translateY(12px);transition:opacity .45s var(--ease),transform .45s var(--ease);transition-delay:calc(var(--i,0)*60ms)}
   .reveal.in>*{opacity:1;transform:none}
   .reveal>:is(.display,.h1,.h2){opacity:1;transform:none;transition:none}
   /* títulos: cada línea sube desde una máscara */
   .ln{display:block;overflow:hidden;padding-bottom:.14em;margin-bottom:-.14em}
-  .ln>span{display:block;transform:translateY(108%);transition:transform .85s var(--ease);transition-delay:calc(var(--l,0)*110ms)}
+  .ln>span{display:block;transform:translateY(108%);transition:transform .6s var(--ease);transition-delay:calc(var(--l,0)*70ms)}
   .reveal.in .ln>span,.listo #inicio .ln>span{transform:none}
   /* entrada del hero */
-  .hero__cta>*{opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .6s var(--ease);transition-delay:calc(.45s + var(--i,0)*100ms)}
+  .hero__cta>*{opacity:0;transform:translateY(14px);transition:opacity .45s var(--ease),transform .45s var(--ease);transition-delay:calc(.3s + var(--i,0)*70ms)}
   .listo #inicio .hero__cta>*{opacity:1;transform:none}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.botella{transition:none}}

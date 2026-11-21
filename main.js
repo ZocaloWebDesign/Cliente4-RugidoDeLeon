@@ -33,10 +33,11 @@
   }
   document.getElementById("edad-si").addEventListener("click", function () {
     try { sessionStorage.setItem("rdl-edad", "1"); } catch (e) {}
-    edad.hidden = true;
     bloquear(false);
     document.body.style.overflow = "";
     listo();
+    if (reduce) { edad.hidden = true; }
+    else { edad.classList.add("saliendo"); setTimeout(function () { edad.hidden = true; edad.classList.remove("saliendo"); }, 190); }
   });
   /* el foco no sale del aviso mientras esta abierto (no se cierra con Escape: hay que responder) */
   edad.addEventListener("keydown", function (e) {
