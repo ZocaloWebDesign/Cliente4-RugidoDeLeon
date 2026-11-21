@@ -5,6 +5,8 @@
 @font-face{font-family:"Barlow Condensed";src:url("fonts/BarlowCondensed-SemiBold.ttf") format("truetype");font-weight:600;font-display:swap}
 
 :root{
+  color-scheme:light;
+  --verde:#4F6E22; --verde-hover:#43601C; --verde-activo:#385015;
   --medianoche:#0F1633; --bordo:#3A1022; --blanco:#FFFFFF;
   --azul-tinta:#1D214F; --azul-vivo:#2F4590; --violeta:#79318D; --boton:#5C2E85; --boton-hover:#6B3896; --boton-activo:#4D2672;
   --texto:var(--azul-tinta); --texto2:#4F577F; --crema:#F1EBDF; --foco:#E6D0F3;
@@ -48,11 +50,6 @@ p,li{text-wrap:pretty}
 .skip:focus{left:8px}
 .vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
-/* ---- fondo continuo: una sola imagen que se desplaza más lento que el contenido ---- */
-.bg{position:fixed;inset:0;overflow:hidden;z-index:-1;background:var(--medianoche);visibility:hidden}
-.bg img{position:absolute;left:0;top:0;width:100%;height:max(calc(100vw * 2752 / 1536),130dvh);object-fit:cover;object-position:center top}
-.bg::after{content:"";position:absolute;inset:0;background:rgba(15,22,51,.34)}
-
 /* ---- tramo: de la entrada hasta el final de mayoristas. La botella acompaña y queda clavada al final ---- */
 .tramo{position:relative}
 .riel{position:absolute;left:0;right:0;top:0;bottom:calc(var(--h-cierre) + 6dvh);pointer-events:none;z-index:5}
@@ -64,8 +61,8 @@ p,li{text-wrap:pretty}
 /* ---- hero (home a pantalla completa) ---- */
 .hero{position:sticky;top:0;isolation:isolate;min-height:100dvh;color:var(--crema);display:flex;flex-direction:column;justify-content:center;padding:0 var(--pad-x)}
 .hero__fondo{position:absolute;inset:0;overflow:hidden;z-index:-1}
-.hero__fondo::after{content:"";position:absolute;inset:0;background:rgba(15,22,51,.28)}
-.capa{position:absolute;inset:0;display:block;background:url("assets/hero-escritorio.jpg") center bottom/cover no-repeat}
+.hero__fondo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,22,51,.5),rgba(15,22,51,.1) 52%,rgba(15,22,51,.42)),rgba(15,22,51,.08)}
+.capa{position:absolute;inset:0;display:block;background:url("assets/hero-escritorio.webp") center bottom/cover no-repeat}
 /* viento: dos capas con la misma foto, recortadas a la zona de los árboles */
 .viento{
   -webkit-mask-image:linear-gradient(to right,#000 0,#000 30%,transparent 42%),linear-gradient(to bottom,transparent 4%,#000 11%,#000 42%,transparent 51%);
@@ -75,8 +72,8 @@ p,li{text-wrap:pretty}
 .viento--hojas{transform-origin:18% 30%;
   -webkit-mask-image:linear-gradient(to right,#000 0,#000 30%,transparent 42%),linear-gradient(to bottom,transparent 4%,#000 10%,#000 32%,transparent 40%);
   mask-image:linear-gradient(to right,#000 0,#000 30%,transparent 42%),linear-gradient(to bottom,transparent 4%,#000 10%,#000 32%,transparent 40%)}
-.hero::before{content:"";position:absolute;inset:0 0 auto 0;height:170px;background:linear-gradient(rgba(15,22,51,.62),rgba(15,22,51,0));pointer-events:none;z-index:-1}
-.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:150px;background:linear-gradient(rgba(15,22,51,0),rgba(15,22,51,.6));pointer-events:none;z-index:-1}
+.hero::before{content:"";position:absolute;inset:0 0 auto 0;height:190px;background:linear-gradient(rgba(15,22,51,.7),rgba(15,22,51,.35) 55%,rgba(15,22,51,0));pointer-events:none;z-index:0}
+.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:170px;background:linear-gradient(rgba(15,22,51,0),rgba(15,22,51,.75));pointer-events:none;z-index:0}
 .nav{position:absolute;z-index:1;top:14px;left:0;right:0;display:flex;justify-content:center;gap:clamp(24px,4vw,64px);font:600 1.0625rem/1 var(--sans)}
 .nav a{text-decoration:none;display:inline-flex;align-items:center;min-height:44px;padding:0 6px}
 @media (hover:hover) and (pointer:fine){.nav a:hover{text-decoration:underline;text-underline-offset:.3em}}
@@ -108,7 +105,7 @@ p,li{text-wrap:pretty}
 .h-foto--der{grid-column:3;text-align:left;padding-left:clamp(8px,1.5vw,28px)}
 .h-foto{
   color:transparent;-webkit-text-fill-color:transparent;
-  background-image:linear-gradient(rgba(8,36,4,.14),rgba(8,36,4,.14)),url("assets/vinedo-letras.jpg");
+  background-image:linear-gradient(rgba(8,36,4,.14),rgba(8,36,4,.14)),url("assets/vinedo-letras.webp");
   background-repeat:no-repeat;background-size:100% 100%,100% auto;background-position:0 0,50% var(--py,50%);
   -webkit-background-clip:text;background-clip:text}
 
@@ -208,18 +205,19 @@ p,li{text-wrap:pretty}
 .cierre .btn{margin-top:8px}
 
 /* ---- pie: toda la foto de la cordillera es el pie. Solo blanco y negro ---- */
-.pie{position:relative;z-index:1;background:#000 url("assets/pie-andes.jpg") center/cover no-repeat;color:#fff;overflow:hidden;isolation:isolate}
-.pie::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(#fff 0,rgba(255,255,255,.7) 7%,rgba(255,255,255,0) 22%),linear-gradient(rgba(0,0,0,.42),rgba(0,0,0,.34))}
+.pie{position:relative;z-index:1;background:#000 url("assets/pie-andes.webp") center/cover no-repeat;color:#fff;overflow:hidden;isolation:isolate}
+.pie::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(#fff 0,rgba(255,255,255,.7) 7%,rgba(255,255,255,0) 22%),linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.56) 62%,rgba(0,0,0,.3))}
 .pie__top{display:grid;grid-template-columns:1.5fr 1fr 1.1fr;gap:clamp(32px,5vw,80px);align-items:start;padding:clamp(120px,15vw,210px) var(--pad-x) clamp(24px,3vw,48px)}
 .pie__lema{margin:0 0 28px;font:600 clamp(2rem,3.4vw,3.2rem)/1.05 var(--cond);text-transform:uppercase;letter-spacing:.04em;color:#fff;max-width:16ch}
 .pie__marca .btn{margin-bottom:28px}
-.pie .btn{background:rgba(79,110,34,.55);color:#fff;border-radius:12px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
-@media (hover:hover) and (pointer:fine){.pie .btn:hover{background:rgba(79,110,34,.75)}}
-.pie .btn:active{background:rgba(56,80,21,.85)}
+.pie .btn{background:color-mix(in srgb,var(--verde) 62%,transparent);color:#fff;border-radius:12px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+@media (hover:hover) and (pointer:fine){.pie .btn:hover{background:color-mix(in srgb,var(--verde) 82%,transparent)}}
+.pie .btn:active{background:color-mix(in srgb,var(--verde-activo) 88%,transparent)}
 .pie__legal{margin:0;max-width:48ch;font-size:var(--fs-legal);line-height:1.7;color:#fff;opacity:.85}
 .pie h2{margin:0 0 14px;color:#fff;font-size:1.125rem;font-weight:700;letter-spacing:.2em}
 .pie__col .pie__lista+h2{margin-top:44px}
 .pie__lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;color:#fff}
+.pie__legal,.pie__lista--suc li,.pie__lista a{text-shadow:0 1px 10px rgba(0,0,0,.5)}
 .pie__lista a{display:inline-flex;align-items:center;min-height:44px;font:600 1.0625rem/1.3 var(--sans);color:#fff;text-decoration:none}
 .pie__lista a{text-decoration:underline;text-decoration-color:transparent;text-underline-offset:.28em;transition:text-decoration-color .25s ease}
 @media (hover:hover) and (pointer:fine){.pie__lista a:hover{text-decoration-color:currentColor}}
@@ -242,6 +240,8 @@ p,li{text-wrap:pretty}
 .edad__botones{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 .edad__nota{margin:20px 0 0!important;color:var(--texto)!important;font-weight:600}
 .edad .btn--sec{color:var(--texto)}
+@media (hover:hover) and (pointer:fine){.edad .btn--sec:hover{background:rgba(29,33,79,.08);color:var(--texto)}}
+.edad .btn--sec:active{background:rgba(29,33,79,.14);color:var(--texto)}
 
 /* ---- animaciones (solo si el visitante no pidió menos movimiento) ---- */
 @media (prefers-reduced-motion:no-preference){
@@ -268,7 +268,7 @@ p,li{text-wrap:pretty}
 /* ---- celular ---- */
 @media (max-width:860px){
   :root{--b-alto:39dvh;--b-base:22.4dvh;--b-top:calc(100dvh - var(--b-base) - var(--b-alto));--pad-x:24px;--lado:0px;--radio:0px;--padc:22px;--h-cierre:0px}
-  .capa{background-image:url("assets/hero-celular.jpg")}
+  .capa{background-image:url("assets/hero-celular.webp")}
   .hero__fondo::after{background:rgba(15,22,51,.12)}
   .hero{justify-content:flex-start;padding:84px var(--pad-x) 0;color:var(--medianoche)}
   .hero::before{display:none}
@@ -298,9 +298,9 @@ p,li{text-wrap:pretty}
   .col--der{padding-left:0}
   .lead,.cuerpo,.lista-may li,.envios span{max-width:none}
   .precios{flex-direction:row;gap:16px}.precios>div{flex:1}
-  .mapa-fondo{--alto:150dvh;--tx:50%;--ty:62%}
+  .mapa-fondo{--alto:120dvh;--tx:25%;--ty:80%}
   .col .btn,.cierre .btn{width:100%}
-  .card::before,.card::after{width:34px;background-size:auto 900px}
+  .card::before,.card::after{width:18px;background-size:auto 760px;opacity:.6}
   .titulo-marca{display:block;order:1;margin-bottom:0}
   .h-foto{font-size:clamp(2.4rem,13.2vw,4rem);text-align:left!important;padding:0!important;line-height:1.05}
   .pie__top{grid-template-columns:minmax(0,1fr)}

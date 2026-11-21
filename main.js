@@ -51,29 +51,6 @@
     document.getElementById("edad-nota").hidden = false;
   });
 
-  /* 3. Fondo continuo: una sola imagen que se desplaza más lento que el contenido */
-  var img = document.getElementById("bg-img");
-  var ticking = false, idle;
-  function pan() {
-    ticking = false;
-    if (reduce) return;
-    var vh = window.innerHeight;
-    var max = Math.max(0, img.offsetHeight - vh);
-    var doc = document.documentElement.scrollHeight - vh;
-    var p = doc > 0 ? Math.min(1, Math.max(0, window.scrollY / doc)) : 0;
-    img.style.transform = "translate3d(0," + (-p * max).toFixed(1) + "px,0)";
-    document.documentElement.style.setProperty("--bgy", (-p * max).toFixed(1) + "px");
-  }
-  function onScroll() {
-    if (!ticking) { ticking = true; requestAnimationFrame(pan); }
-    img.style.willChange = "transform";                       /* solo mientras se desplaza */
-    clearTimeout(idle);
-    idle = setTimeout(function () { img.style.willChange = "auto"; }, 180);
-  }
-  window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll);
-  pan();
-
   /* 3b. Letras de "Rugido de León": la foto de adentro se desplaza hacia abajo al bajar y hacia arriba al subir */
   var letras = document.querySelectorAll(".h-foto");
   function moverLetras() {

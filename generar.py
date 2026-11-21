@@ -25,7 +25,7 @@ LEGAL = "Beber con moderación. Prohibida su venta a menores de 18 años."
 
 
 def btn(txt="Pedir por WhatsApp", extra=""):
-    return f'<a class="btn btn--wa {extra}" href="{WA}" target="_blank" rel="noopener"><span>{txt}</span></a>'
+    return f'<a class="btn btn--wa {extra}" href="{WA}" target="_blank" rel="noopener"><span>{txt}</span><span class="vh"> (se abre en una pestaña nueva)</span></a>'
 
 
 page = f"""<!doctype html>
@@ -39,21 +39,20 @@ page = f"""<!doctype html>
 <meta property="og:description" content="Malbec 2025 de San Rafael, Mendoza. Pedilo por WhatsApp.">
 <meta property="og:image" content="assets/hero-escritorio.jpg">
 <meta name="theme-color" content="#0F1633">
-<link rel="preload" href="assets/botella.png" as="image">
+<link rel="preload" href="assets/hero-escritorio.webp" as="image" media="(min-width: 861px)" fetchpriority="high">
+<link rel="preload" href="assets/hero-celular.webp" as="image" media="(max-width: 860px)" fetchpriority="high">
+<link rel="preload" href="assets/botella.webp" as="image">
 <link rel="preload" href="fonts/LibreBaskerville-Variable.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="styles.css?v=80">
+<link rel="stylesheet" href="styles.css?v=93">
 </head>
 <body>
 <a class="skip" href="#marca">Saltar al contenido</a>
-
-<!-- Fondo continuo: una sola imagen que se desplaza lento con el scroll -->
-<div class="bg" aria-hidden="true"><img src="assets/fondo.jpg" alt="" id="bg-img"></div>
 
 <div class="tramo">
 <!-- La botella acompaña el scroll y queda clavada al final de la sección de mayoristas -->
 <div class="riel" aria-hidden="true">
   <div class="botella" id="botella">
-    <img src="assets/botella.png" alt="" width="332" height="1200" fetchpriority="high" decoding="async">
+    <img src="assets/botella.webp" alt="" width="332" height="1200" fetchpriority="high" decoding="async">
   </div>
 </div>
 
@@ -104,7 +103,7 @@ page = f"""<!doctype html>
       </dl>
     </div>
   </div>
-  <img class="mbotella" src="assets/botella.png" alt="" aria-hidden="true" width="332" height="1200" loading="lazy" decoding="async">
+  <img class="mbotella" src="assets/botella.webp" alt="" aria-hidden="true" width="332" height="1200" loading="lazy" decoding="async">
 </section>
 
 <section class="card acc-azul" id="origen" aria-labelledby="t-origen">
@@ -129,7 +128,7 @@ page = f"""<!doctype html>
       <p class="nota">Vino de libre circulación, con certificado de análisis del INV.</p>
     </div>
   </div>
-  <img class="mbotella" src="assets/botella.png" alt="" aria-hidden="true" width="332" height="1200" loading="lazy" decoding="async">
+  <img class="mbotella" src="assets/botella.webp" alt="" aria-hidden="true" width="332" height="1200" loading="lazy" decoding="async">
 </section>
 
 <section class="card acc-violeta" id="vino-en-accion" aria-labelledby="t-accion">
@@ -147,11 +146,11 @@ page = f"""<!doctype html>
     <div class="col__centro"></div>
     <div class="col col--der reveal">
       <figure class="foto-accion">
-        <img src="assets/vino-en-accion.jpg" width="671" height="802" loading="lazy" decoding="async" alt="Botella de Rugido de León en la mano, junto a un fuego de leña encendido">
+        <img src="assets/vino-en-accion.webp" width="671" height="802" loading="lazy" decoding="async" alt="Botella de Rugido de León en la mano, junto a un fuego de leña encendido">
       </figure>
     </div>
   </div>
-  <img class="mbotella" src="assets/botella.png" alt="" aria-hidden="true" width="332" height="1200" loading="lazy" decoding="async">
+  <img class="mbotella" src="assets/botella.webp" alt="" aria-hidden="true" width="332" height="1200" loading="lazy" decoding="async">
 </section>
 
 <section class="card acc-bordo" id="envios" aria-labelledby="t-envios">
@@ -176,7 +175,7 @@ page = f"""<!doctype html>
       {btn("Consultá por la oferta de fin de año")}
     </div>
   </div>
-  <img class="mbotella" src="assets/botella.png" alt="" aria-hidden="true" width="332" height="1200" loading="lazy" decoding="async">
+  <img class="mbotella" src="assets/botella.webp" alt="" aria-hidden="true" width="332" height="1200" loading="lazy" decoding="async">
 </section>
 
 </main>
@@ -192,8 +191,8 @@ page = f"""<!doctype html>
     <div class="pie__col reveal">
       <h2 class="detalle">Contacto</h2>
       <ul class="pie__lista">
-        <li><a href="{WA}" target="_blank" rel="noopener">WhatsApp 3564 507507</a></li>
-        <li><a href="https://www.instagram.com/rugidodeleon.oficial/" target="_blank" rel="noopener">@rugidodeleon.oficial</a></li>
+        <li><a href="{WA}" target="_blank" rel="noopener">WhatsApp 3564 507507<span class="vh"> (se abre en una pestaña nueva)</span></a></li>
+        <li><a href="https://www.instagram.com/rugidodeleon.oficial/" target="_blank" rel="noopener">@rugidodeleon.oficial<span class="vh"> (se abre en una pestaña nueva)</span></a></li>
       </ul>
       <h2 class="detalle">Información</h2>
       <!-- Páginas legales en BORRADOR: revisar con un abogado y completar los datos entre corchetes antes de publicar -->
@@ -232,7 +231,7 @@ page = f"""<!doctype html>
   </div>
 </div>
 
-<script src="main.js?v=80"></script>
+<script src="main.js?v=90"></script>
 </body>
 </html>
 """
