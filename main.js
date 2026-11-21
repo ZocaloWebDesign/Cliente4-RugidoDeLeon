@@ -73,6 +73,24 @@
   window.addEventListener("resize", onScroll);
   pan();
 
+  /* 3b. Letras de "Rugido de León": la foto de adentro se desplaza hacia abajo al bajar y hacia arriba al subir */
+  var letras = document.querySelectorAll(".h-foto");
+  function moverLetras() {
+    if (reduce) return;
+    var vh = window.innerHeight;
+    letras.forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      var p = (vh - r.top) / (vh + r.height);
+      p = Math.min(1, Math.max(0, p));
+      el.style.setProperty("--py", ((1 - p) * 100).toFixed(1) + "%");
+    });
+  }
+  var tl = false;
+  function pedirLetras() { if (!tl) { tl = true; requestAnimationFrame(function () { tl = false; moverLetras(); }); } }
+  window.addEventListener("scroll", pedirLetras, { passive: true });
+  window.addEventListener("resize", pedirLetras);
+  moverLetras();
+
   /* 4. La foto del cierre carga cuando se acerca */
   var foto = document.getElementById("foto-cierre");
   if (foto) {

@@ -9,13 +9,13 @@ def mapa_svg():
     otros = "".join(f'<path d="{d}"/>' for n, d in MAP["paths"].items() if n != "Mendoza")
     sx, sy = MAP["sanrafael"]
     return (
-        f'<svg class="mapa" viewBox="0 0 {W:.0f} {H:.0f}" role="img" '
-        f'aria-label="Mapa de Argentina con la provincia de Mendoza resaltada y San Rafael marcado">'
+        f'<svg class="mapa-fondo" viewBox="0 0 {W:.0f} {H:.0f}" role="img" '
+        f'aria-label="Mapa de Argentina con la provincia de Mendoza resaltada y San Rafael marcado" '
+        f'style="--fx:{sx/W:.4f};--fy:{sy/H:.4f};--ar:{W/H:.4f}">'
         f'<g class="mapa__prov">{otros}</g>'
         f'<path class="mapa__mza" d="{MAP["paths"]["Mendoza"]}"/>'
-        f'<circle class="mapa__pt-o" cx="{sx:.0f}" cy="{sy:.0f}" r="12"/>'
-        f'<circle class="mapa__pt-i" cx="{sx:.0f}" cy="{sy:.0f}" r="6.5"/>'
-        f'<text class="mapa__lbl" x="{sx+22:.0f}" y="{sy+7:.0f}">San Rafael</text>'
+        f'<circle class="mapa__pt-o" cx="{sx:.0f}" cy="{sy:.0f}" r="6"/>'
+        f'<circle class="mapa__pt-i" cx="{sx:.0f}" cy="{sy:.0f}" r="3"/>'
         f'</svg>'
     )
 
@@ -41,7 +41,7 @@ page = f"""<!doctype html>
 <meta name="theme-color" content="#0F1633">
 <link rel="preload" href="assets/botella.png" as="image">
 <link rel="preload" href="fonts/LibreBaskerville-Variable.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="styles.css?v=34">
+<link rel="stylesheet" href="styles.css?v=70">
 </head>
 <body>
 <a class="skip" href="#marca">Saltar al contenido</a>
@@ -108,15 +108,12 @@ page = f"""<!doctype html>
 </section>
 
 <section class="card acc-azul" id="origen" aria-labelledby="t-origen">
+  {mapa_svg()}
   <div class="card__grid">
     <div class="col col--izq reveal">
       <h2 class="h1 h1--chico" id="t-origen">Hecho en San Rafael,<br>Mendoza.</h2>
       <div class="origen">
         <p class="cuerpo">Se elabora y fracciona en la bodega Almabras, en Las Paredes, al sur de Mendoza, con Malbec de la zona.</p>
-        <figure class="origen__mapa">
-          {mapa_svg()}
-          <figcaption><span class="leyenda"></span>Mendoza</figcaption>
-        </figure>
       </div>
     </div>
     <div class="col__centro"></div>
@@ -149,9 +146,8 @@ page = f"""<!doctype html>
     </div>
     <div class="col__centro"></div>
     <div class="col col--der reveal">
-      <!-- ESPACIO PARA FOTO: personas y clientes tomando Rugido de León. Reemplazar este bloque por <img src="assets/clientes.jpg" alt="..."> -->
-      <figure class="foto-hueco" role="img" aria-label="Espacio reservado para una foto de clientes disfrutando Rugido de León">
-        <span class="detalle">Foto de nuestros clientes disfrutando el vino</span>
+      <figure class="foto-accion">
+        <img src="assets/vino-en-accion.jpg" width="671" height="802" loading="lazy" decoding="async" alt="Botella de Rugido de León en la mano, junto a un fuego de leña encendido">
       </figure>
     </div>
   </div>
@@ -188,12 +184,12 @@ page = f"""<!doctype html>
 
 <footer class="pie" id="pie">
   <div class="pie__top">
-    <div class="pie__marca">
+    <div class="pie__marca reveal">
       <p class="pie__lema">La libertad no se negocia, se conquista.</p>
       {btn("Consultá por la oferta de fin de año")}
       <p class="pie__legal">{LEGAL}<br>Elaborado por Almabras S.A., San Rafael, Mendoza (INV K72643).<br>Comercializa Quilam S.A.S., San Francisco, Córdoba.</p>
     </div>
-    <div class="pie__col">
+    <div class="pie__col reveal">
       <h2 class="detalle">Contacto</h2>
       <ul class="pie__lista">
         <li><a href="{WA}" target="_blank" rel="noopener">WhatsApp 3564 507507</a></li>
@@ -207,7 +203,7 @@ page = f"""<!doctype html>
         <li><a href="arrepentimiento.html">Botón de arrepentimiento</a></li>
       </ul>
     </div>
-    <div class="pie__col pie__col--suc">
+    <div class="pie__col pie__col--suc reveal">
       <h2 class="detalle">Sucursales</h2>
       <ul class="pie__lista pie__lista--suc">
         <li><strong>San Francisco</strong>Santiago Pampiglione 4611, Parque Industrial</li>
@@ -236,7 +232,7 @@ page = f"""<!doctype html>
   </div>
 </div>
 
-<script src="main.js?v=9"></script>
+<script src="main.js?v=70"></script>
 </body>
 </html>
 """

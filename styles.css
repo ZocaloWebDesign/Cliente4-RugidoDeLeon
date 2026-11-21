@@ -22,8 +22,8 @@
   --b-alto:77.8vh; --b-base:9.8vh;            /* botella: alto y distancia al borde inferior */
   --b-top:calc(100vh - var(--b-base) - var(--b-alto));
   --pad-x:clamp(24px,6.7vw,96px);
-  --lado:clamp(40px,5.5vw,80px);              /* margen lateral de la pila de tarjetas: deja ver el fondo */
-  --radio:40px;
+  --lado:0px;              /* margen lateral de la pila de tarjetas: deja ver el fondo */
+  --radio:0px;
   --padc:clamp(24px,5.4vw,80px);
   --h-cierre:0px;
   --acc:var(--violeta);
@@ -37,6 +37,10 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--medianoche);color:var(--texto);font:500 var(--fs-cuerpo)/1.6 var(--sans);overflow-x:hidden}
 img{max-width:100%;display:block}
 a{color:inherit}
+html{scroll-padding-top:16px}
+body{-webkit-tap-highlight-color:transparent;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+h1,h2,h3{text-wrap:balance}
+p,li{text-wrap:pretty}
 :focus-visible{outline:3px solid var(--foco);outline-offset:3px;border-radius:6px}
 .card :focus-visible{outline-color:var(--acc)}
 .card--foto :focus-visible{outline-color:var(--foco)}
@@ -45,7 +49,7 @@ a{color:inherit}
 .vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
 /* ---- fondo continuo: una sola imagen que se desplaza más lento que el contenido ---- */
-.bg{position:fixed;inset:0;overflow:hidden;z-index:-1;background:var(--medianoche)}
+.bg{position:fixed;inset:0;overflow:hidden;z-index:-1;background:var(--medianoche);visibility:hidden}
 .bg img{position:absolute;left:0;top:0;width:100%;height:max(calc(100vw * 2752 / 1536),130dvh);object-fit:cover;object-position:center top}
 .bg::after{content:"";position:absolute;inset:0;background:rgba(15,22,51,.34)}
 
@@ -58,7 +62,7 @@ a{color:inherit}
 .botella.off{opacity:0}
 
 /* ---- hero (home a pantalla completa) ---- */
-.hero{position:relative;isolation:isolate;min-height:100dvh;color:var(--crema);display:flex;flex-direction:column;justify-content:center;padding:0 var(--pad-x)}
+.hero{position:sticky;top:0;isolation:isolate;min-height:100dvh;color:var(--crema);display:flex;flex-direction:column;justify-content:center;padding:0 var(--pad-x)}
 .hero__fondo{position:absolute;inset:0;overflow:hidden;z-index:-1}
 .hero__fondo::after{content:"";position:absolute;inset:0;background:rgba(15,22,51,.28)}
 .capa{position:absolute;inset:0;display:block;background:url("assets/hero-escritorio.jpg") center bottom/cover no-repeat}
@@ -83,14 +87,14 @@ a{color:inherit}
 .hero__legal{z-index:1;position:absolute;left:var(--pad-x);bottom:24px;margin:0;font-size:var(--fs-legal);color:var(--lavanda)}
 
 /* ---- botón con animación ---- */
-.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 28px;border:0;border-radius:999px;background:var(--boton);color:#fff;font:600 1.125rem/1 var(--sans);letter-spacing:.01em;text-decoration:none;cursor:pointer;white-space:nowrap;transition:background .2s ease,transform .2s var(--ease)}
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 28px;border:0;border-radius:999px;background:var(--boton);color:#fff;font:600 1.125rem/1 var(--sans);letter-spacing:.01em;text-decoration:none;cursor:pointer;white-space:nowrap;touch-action:manipulation;transition:background .2s ease,transform .35s cubic-bezier(.34,1.56,.64,1)}
 .btn:hover{background:var(--boton-hover)}
-.btn:active{background:var(--boton-activo);transform:scale(.97)}
+.btn:active{background:var(--boton-activo);transform:translateY(1px) scale(.975);transition-duration:.08s}
 .btn--sec{background:transparent;color:inherit;box-shadow:inset 0 0 0 2px currentColor}
 .btn--wa::after{content:"\2192";display:inline-block}
 
 /* ---- pila de tarjetas: más angosta que la pantalla (se ve el fondo), pegadas entre sí (sin huecos verticales) ---- */
-.pila{position:relative;margin:0 var(--lado);border-radius:var(--radio) var(--radio) 0 0;overflow:hidden;box-shadow:0 14px 44px rgba(0,0,0,.5)}
+.pila{position:relative;margin:0 var(--lado);border-radius:0;overflow:hidden;box-shadow:0 -24px 60px -12px rgba(15,22,51,.5)}
 .card{position:relative;isolation:isolate;background:var(--blanco);color:var(--texto);min-height:96dvh;display:flex;flex-direction:column;justify-content:center;padding:clamp(48px,7vw,96px) var(--padc)}
 .card__grid{display:grid;grid-template-columns:1fr minmax(240px,22vw) 1fr;align-items:center;position:relative}
 .col{display:flex;flex-direction:column;gap:22px}
@@ -104,10 +108,8 @@ a{color:inherit}
 .h-foto--der{grid-column:3;text-align:left;padding-left:clamp(8px,1.5vw,28px)}
 .h-foto{
   color:transparent;-webkit-text-fill-color:transparent;
-  background-image:linear-gradient(rgba(15,22,51,.6),rgba(15,22,51,.6)),url("assets/fondo.jpg");
-  background-repeat:no-repeat;background-attachment:fixed;
-  background-size:100% 100%,max(100vw,calc(130dvh*1400/2508)) auto;
-  background-position:0 0,50% var(--bgy,0px);
+  background-image:linear-gradient(rgba(8,36,4,.14),rgba(8,36,4,.14)),url("assets/vinedo-letras.jpg");
+  background-repeat:no-repeat;background-size:100% 100%,100% auto;background-position:0 0,50% var(--py,50%);
   -webkit-background-clip:text;background-clip:text}
 
 /* ---- dibujos de vino solo en los bordes de cada tarjeta (se cortan con el borde) ---- */
@@ -119,13 +121,13 @@ a{color:inherit}
 .pila>.card:nth-child(4)::before{background-position:0 -1100px}.pila>.card:nth-child(4)::after{background-position:0 -520px}
 
 /* ---- tipografía ---- */
-.display{margin:0;font:700 var(--fs-display)/1.25 var(--serif);color:var(--acc)}
+.display{margin:0;font:700 var(--fs-display)/1.2 var(--serif);letter-spacing:-.012em;color:var(--acc)}
 .card .display{font-size:clamp(2rem,3.5vw,3.1rem)}
 .h1{margin:0;font:700 var(--fs-h1)/1.3 var(--serif);color:var(--acc)}
 .h1--chico{font-size:clamp(1.6rem,2.4vw,2.25rem)}
 .h2{margin:0;font:700 var(--fs-h2)/1.25 var(--serif);color:var(--acc)}
-.lead{margin:0;font:500 var(--fs-lead)/1.5 var(--sans);max-width:34ch;color:var(--texto2)}
-.cuerpo{margin:0;max-width:40ch;color:var(--texto2)}
+.lead{margin:0;font:500 var(--fs-lead)/1.55 var(--sans);max-width:36ch;color:var(--texto2)}
+.cuerpo{margin:0;max-width:44ch;color:var(--texto2)}
 .detalle{font:600 .9375rem/1.2 var(--cond);text-transform:uppercase;letter-spacing:.18em}
 .filete{display:block;width:96px;height:4px;background:var(--acc);border-radius:2px}
 
@@ -152,7 +154,16 @@ a{color:inherit}
 .sucursales strong{color:var(--texto);font-weight:600;margin-right:6px}
 .col--der>.btn{align-self:flex-start;margin-top:12px}
 
-/* ---- origen ---- */
+/* ---- origen: el mapa de Argentina de fondo, grande; Mendoza queda donde antes estaba el mapa chico ---- */
+#origen{overflow:hidden}
+.mapa-fondo{position:absolute;z-index:-1;pointer-events:none;overflow:visible;
+  --alto:215dvh;--tx:23%;--ty:79%;
+  height:var(--alto);width:calc(var(--alto) * var(--ar));
+  left:calc(var(--tx) - var(--fx) * var(--alto) * var(--ar));top:calc(var(--ty) - var(--fy) * var(--alto))}
+.mapa-fondo .mapa__prov path{fill:#EEF0F7;stroke:#fff;stroke-width:1.2}
+.mapa-fondo .mapa__mza{fill:rgba(121,49,141,.3);stroke:var(--violeta);stroke-width:1.6;stroke-linejoin:round}
+.mapa-fondo .mapa__pt-o{fill:#fff}.mapa-fondo .mapa__pt-i{fill:var(--violeta);stroke:#fff;stroke-width:1.5}
+/* ---- origen (textos) ---- */
 .origen{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
 .origen .cuerpo{flex:1 1 200px;max-width:28ch;font-size:1rem}
 .origen__mapa{margin:0;flex:0 0 clamp(96px,9vw,128px)}
@@ -183,6 +194,9 @@ a{color:inherit}
 /* ---- espacio para la foto de clientes ---- */
 .foto-hueco{margin:0;aspect-ratio:4/5;width:100%;max-width:420px;border:2px dashed var(--acc);border-radius:28px;background:var(--lila-aviso);display:grid;place-items:center;text-align:center;padding:24px;color:var(--acc)}
 
+.foto-accion{margin:0;width:100%;max-width:440px}
+.foto-accion img{display:block;width:100%;height:auto}
+
 /* ---- cierre: tarjeta con foto (la botella ya viene en la foto) ---- */
 .card--foto{color:var(--crema);height:var(--h-cierre);min-height:0;background:var(--medianoche);padding-top:0;padding-bottom:0}
 .card__foto{position:absolute;inset:0;background:var(--medianoche) center/cover no-repeat}
@@ -195,8 +209,8 @@ a{color:inherit}
 
 /* ---- pie: toda la foto de la cordillera es el pie. Solo blanco y negro ---- */
 .pie{position:relative;z-index:1;background:#000 url("assets/pie-andes.jpg") center/cover no-repeat;color:#fff;overflow:hidden;isolation:isolate}
-.pie::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(rgba(0,0,0,.66),rgba(0,0,0,.42) 55%,rgba(0,0,0,.3))}
-.pie__top{display:grid;grid-template-columns:1.5fr 1fr 1.1fr;gap:clamp(32px,5vw,80px);align-items:start;padding:clamp(56px,7vw,104px) var(--pad-x) clamp(24px,3vw,48px)}
+.pie::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(#fff 0,rgba(255,255,255,.7) 7%,rgba(255,255,255,0) 22%),linear-gradient(rgba(0,0,0,.42),rgba(0,0,0,.34))}
+.pie__top{display:grid;grid-template-columns:1.5fr 1fr 1.1fr;gap:clamp(32px,5vw,80px);align-items:start;padding:clamp(120px,15vw,210px) var(--pad-x) clamp(24px,3vw,48px)}
 .pie__lema{margin:0 0 28px;font:600 clamp(2rem,3.4vw,3.2rem)/1.05 var(--cond);text-transform:uppercase;letter-spacing:.04em;color:#fff;max-width:16ch}
 .pie__marca .btn{margin-bottom:28px}
 .pie .btn{background:rgba(79,110,34,.55);color:#fff;border-radius:12px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
@@ -207,7 +221,8 @@ a{color:inherit}
 .pie__col .pie__lista+h2{margin-top:44px}
 .pie__lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;color:#fff}
 .pie__lista a{display:inline-flex;align-items:center;min-height:44px;font:600 1.0625rem/1.3 var(--sans);color:#fff;text-decoration:none}
-.pie__lista a:hover{text-decoration:underline;text-underline-offset:.25em}
+.pie__lista a{text-decoration:underline;text-decoration-color:transparent;text-underline-offset:.28em;transition:text-decoration-color .25s ease}
+.pie__lista a:hover{text-decoration-color:currentColor}
 .pie__lista--suc{gap:22px}
 .pie__lista--suc li{font-size:var(--fs-legal);line-height:1.5;opacity:.9}
 .pie__lista--suc strong{display:block;color:#fff;font:600 1.0625rem/1.4 var(--sans)}
@@ -250,7 +265,7 @@ a{color:inherit}
 
 /* ---- celular ---- */
 @media (max-width:860px){
-  :root{--b-alto:39dvh;--b-base:22.4dvh;--b-top:calc(100dvh - var(--b-base) - var(--b-alto));--pad-x:24px;--lado:14px;--radio:28px;--padc:22px;--h-cierre:0px}
+  :root{--b-alto:39dvh;--b-base:22.4dvh;--b-top:calc(100dvh - var(--b-base) - var(--b-alto));--pad-x:24px;--lado:0px;--radio:0px;--padc:22px;--h-cierre:0px}
   .capa{background-image:url("assets/hero-celular.jpg")}
   .hero__fondo::after{background:rgba(15,22,51,.12)}
   .hero{justify-content:flex-start;padding:84px var(--pad-x) 0;color:var(--medianoche)}
@@ -281,7 +296,7 @@ a{color:inherit}
   .col--der{padding-left:0}
   .lead,.cuerpo,.lista-may li,.envios span{max-width:none}
   .precios{flex-direction:row;gap:16px}.precios>div{flex:1}
-  .origen__mapa{flex-basis:140px}
+  .mapa-fondo{--alto:150dvh;--tx:50%;--ty:62%}
   .col .btn,.cierre .btn{width:100%}
   .card::before,.card::after{width:34px;background-size:auto 900px}
   .titulo-marca{display:block;order:1;margin-bottom:0}
