@@ -63,11 +63,36 @@
       el.style.setProperty("--py", ((1 - p) * 100).toFixed(1) + "%");
     });
   }
+  /* 3c. Momento principal: al bajar, el título del home se retira (se aleja y se apaga) mientras la primera sección lo cubre */
+  var hTitulo = document.querySelector(".hero__titulo");
+  var hCta = document.querySelector(".hero__cta");
+  function retirarHome() {
+    if (reduce || !hTitulo) return;
+    var p = Math.min(1, Math.max(0, window.scrollY / (window.innerHeight * 0.85)));
+    var q = p * p;                                   /* arranca suave y se acelera cuando la sección ya lo cubre */
+    hTitulo.style.opacity = (1 - q).toFixed(3);
+    hTitulo.style.transform = "translate3d(0," + (-q * 44).toFixed(1) + "px,0) scale(" + (1 - q * 0.04).toFixed(4) + ")";
+    if (hCta) { hCta.style.opacity = (1 - q).toFixed(3); }
+  }
+
   var tl = false;
-  function pedirLetras() { if (!tl) { tl = true; requestAnimationFrame(function () { tl = false; moverLetras(); }); } }
+  function tick() { moverLetras(); retirarHome(); }
+  function pedirLetras() { if (!tl) { tl = true; requestAnimationFrame(function () { tl = false; tick(); }); } }
   window.addEventListener("scroll", pedirLetras, { passive: true });
   window.addEventListener("resize", pedirLetras);
-  moverLetras();
+  tick();
+
+  /* 3d. Origen: el contorno de Mendoza se dibuja al llegar a la sección y después aparece el punto de San Rafael */
+  var mza = document.querySelector(".mapa__mza");
+  var origen = document.getElementById("origen");
+  if (mza && origen && !reduce && "IntersectionObserver" in window && mza.getTotalLength) {
+    mza.style.setProperty("--len", Math.ceil(mza.getTotalLength()));
+    origen.classList.add("mapa-pre");
+    var iom = new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting) { origen.classList.add("mapa-go"); iom.disconnect(); }
+    }, { threshold: 0.3 });
+    iom.observe(origen);
+  }
 
   /* 4. La foto del cierre carga cuando se acerca */
   var foto = document.getElementById("foto-cierre");

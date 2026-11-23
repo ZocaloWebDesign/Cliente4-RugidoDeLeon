@@ -39,7 +39,8 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--medianoche);color:var(--texto);font:500 var(--fs-cuerpo)/1.6 var(--sans);overflow-x:hidden}
 img{max-width:100%;display:block}
 a{color:inherit}
-html{scroll-padding-top:16px}
+html{scroll-padding-top:16px;accent-color:var(--violeta);scrollbar-color:var(--boton) var(--medianoche)}
+::selection{background:var(--violeta);color:#fff}
 body{-webkit-tap-highlight-color:transparent;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
 h1,h2,h3{text-wrap:balance}
 p,li{text-wrap:pretty}
@@ -160,6 +161,11 @@ p,li{text-wrap:pretty}
 .mapa-fondo .mapa__prov path{fill:#EEF0F7;stroke:#fff;stroke-width:1.2}
 .mapa-fondo .mapa__mza{fill:rgba(121,49,141,.3);stroke:var(--violeta);stroke-width:1.6;stroke-linejoin:round}
 .mapa-fondo .mapa__pt-o{fill:#fff}.mapa-fondo .mapa__pt-i{fill:var(--violeta);stroke:#fff;stroke-width:1.5}
+/* el contorno de Mendoza se dibuja una vez, cuando la sección entra en pantalla (solo con JavaScript y sin movimiento reducido) */
+.mapa-pre .mapa__mza{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);fill-opacity:0}
+.mapa-pre .mapa__pt-o,.mapa-pre .mapa__pt-i{opacity:0}
+.mapa-go .mapa__mza{stroke-dashoffset:0;fill-opacity:1;transition:stroke-dashoffset 1.4s cubic-bezier(.77,0,.175,1),fill-opacity .6s ease 1.1s}
+.mapa-go .mapa__pt-o,.mapa-go .mapa__pt-i{opacity:1;transition:opacity .35s var(--ease) 1.8s}
 /* ---- origen (textos) ---- */
 .origen{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
 .origen .cuerpo{flex:1 1 200px;max-width:28ch;font-size:1rem}
@@ -263,7 +269,7 @@ p,li{text-wrap:pretty}
   .hero__cta>*{opacity:0;transform:translateY(14px);transition:opacity .45s var(--ease),transform .45s var(--ease);transition-delay:calc(.3s + var(--i,0)*70ms)}
   .listo #inicio .hero__cta>*{opacity:1;transform:none}
 }
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.botella{transition:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.botella{transition:none}.reveal>*{opacity:0;transition:opacity .3s ease}.reveal.in>*{opacity:1}}
 
 /* ---- celular ---- */
 @media (max-width:860px){
