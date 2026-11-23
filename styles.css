@@ -279,6 +279,19 @@ p,li{text-wrap:pretty}
   .hero__cta>*{opacity:0;transform:translateY(14px);transition:opacity .45s var(--ease),transform .45s var(--ease);transition-delay:calc(.3s + var(--i,0)*70ms)}
   .listo #inicio .hero__cta>*{opacity:1;transform:none}
 }
+/* ---- botones de WhatsApp: un destello recorre el borde (solo mientras el botón se ve; apagado con movimiento reducido) ---- */
+@property --ang{syntax:"<angle>";initial-value:0deg;inherits:false}
+.btn--wa{--trail-c:var(--foco)}
+.pie .btn--wa{--trail-c:var(--violeta)}
+@media (prefers-reduced-motion:no-preference){
+  .btn--wa::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:2px;pointer-events:none;opacity:0;
+    background:conic-gradient(from var(--ang),transparent 0 70%,var(--trail-c) 100%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+    transition:opacity .4s ease}
+  .btn--wa.vista::before{opacity:1;animation:giro 3.8s linear infinite}
+  @keyframes giro{to{--ang:360deg}}
+}
+.num{font-variant-numeric:tabular-nums lining-nums;display:inline-block}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.botella{transition:none}.reveal>*{opacity:0;transition:opacity .3s ease}.reveal.in>*{opacity:1}}
 
 /* ---- celular ---- */

@@ -94,6 +94,45 @@
     iom.observe(origen);
   }
 
+  /* 3e. Botones de WhatsApp: el destello del borde solo corre mientras el botón está en pantalla */
+  var botones = document.querySelectorAll(".btn--wa");
+  if (!reduce && "IntersectionObserver" in window) {
+    var iob = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { e.target.classList.toggle("vista", e.isIntersecting); });
+    }, { threshold: 0.3 });
+    botones.forEach(function (b) { iob.observe(b); });
+  }
+
+  /* 3f. Cifras de la ficha (alcohol, cosecha, medida): cuentan hasta su valor al entrar en pantalla */
+  var nums = document.querySelectorAll(".num");
+  function formato(v, dec, sep, suf) {
+    var t = v.toLocaleString("es-AR", { minimumFractionDigits: dec, maximumFractionDigits: dec, useGrouping: sep !== "0" });
+    return t + (suf || "");
+  }
+  if (!reduce && "IntersectionObserver" in window && nums.length) {
+    nums.forEach(function (n) {
+      var fin = parseFloat(n.getAttribute("data-valor")), dec = +n.getAttribute("data-dec") || 0;
+      var sep = n.getAttribute("data-sep"), suf = n.getAttribute("data-suf") || "";
+      n.setAttribute("aria-label", n.textContent);          /* el lector de pantalla lee el valor final */
+      n.style.minWidth = n.getBoundingClientRect().width + "px";
+      n.textContent = formato(0, dec, sep, suf);
+      var ion = new IntersectionObserver(function (es) {
+        if (!es[0].isIntersecting) return;
+        ion.disconnect();
+        var t0 = null, dur = 1900;
+        function paso(ts) {
+          if (t0 === null) t0 = ts;
+          var p = Math.min(1, (ts - t0) / dur);
+          var e = 1 - Math.pow(1 - p, 4);                    /* frena sin rebote */
+          n.textContent = formato(fin * e, dec, sep, suf);
+          if (p < 1) requestAnimationFrame(paso); else n.textContent = formato(fin, dec, sep, suf);
+        }
+        requestAnimationFrame(paso);
+      }, { threshold: 0.6 });
+      ion.observe(n);
+    });
+  }
+
   /* 4. La foto del cierre carga cuando se acerca */
   var foto = document.getElementById("foto-cierre");
   if (foto) {

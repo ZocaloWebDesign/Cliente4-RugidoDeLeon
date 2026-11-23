@@ -44,7 +44,7 @@ page = f"""<!doctype html>
 <link rel="preload" href="assets/hero-celular.webp" as="image" media="(max-width: 860px)" fetchpriority="high">
 <link rel="preload" href="assets/botella.webp" as="image">
 <link rel="preload" href="fonts/LibreBaskerville-Variable.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="styles.css?v=120">
+<link rel="stylesheet" href="styles.css?v=130">
 <noscript><style>.reveal>*{{opacity:1!important;transform:none!important}}.ln>span{{transform:none!important}}.hero__cta>*{{opacity:1!important;transform:none!important}}</style></noscript>
 </head>
 <body>
@@ -98,10 +98,10 @@ page = f"""<!doctype html>
     <div class="col col--der reveal">
       <dl class="ficha ficha--dos">
         <div class="ancho"><dt class="detalle">Cepa</dt><dd>Malbec</dd></div>
-        <div><dt class="detalle">Alcohol</dt><dd>13,1%</dd></div>
+        <div><dt class="detalle">Alcohol</dt><dd><span class="num" data-valor="13.1" data-dec="1" data-suf="%">13,1%</span></dd></div>
         <div><dt class="detalle">Estilo</dt><dd>Seco</dd></div>
-        <div><dt class="detalle">Cosecha</dt><dd>2025</dd></div>
-        <div><dt class="detalle">Medida</dt><dd>750 ml</dd></div>
+        <div><dt class="detalle">Cosecha</dt><dd><span class="num" data-valor="2025" data-dec="0" data-sep="0">2025</span></dd></div>
+        <div><dt class="detalle">Medida</dt><dd><span class="num" data-valor="750" data-dec="0" data-suf=" ml">750 ml</span></dd></div>
       </dl>
     </div>
   </div>
@@ -231,7 +231,7 @@ page = f"""<!doctype html>
   </div>
 </div>
 
-<script src="main.js?v=100"></script>
+<script src="main.js?v=130"></script>
 </body>
 </html>
 """
