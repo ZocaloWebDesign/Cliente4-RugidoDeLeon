@@ -16,6 +16,7 @@ def mapa_svg():
         f'<path class="mapa__mza" d="{MAP["paths"]["Mendoza"]}"/>'
         f'<circle class="mapa__pt-o" cx="{sx:.0f}" cy="{sy:.0f}" r="6"/>'
         f'<circle class="mapa__pt-i" cx="{sx:.0f}" cy="{sy:.0f}" r="3"/>'
+        f'<text class="mapa__rotulo" x="{sx+9:.0f}" y="{sy+2.5:.0f}">San Rafael</text>'
         f'</svg>'
     )
 
@@ -43,7 +44,7 @@ page = f"""<!doctype html>
 <link rel="preload" href="assets/hero-celular.webp" as="image" media="(max-width: 860px)" fetchpriority="high">
 <link rel="preload" href="assets/botella.webp" as="image">
 <link rel="preload" href="fonts/LibreBaskerville-Variable.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="styles.css?v=100">
+<link rel="stylesheet" href="styles.css?v=120">
 <noscript><style>.reveal>*{{opacity:1!important;transform:none!important}}.ln>span{{transform:none!important}}.hero__cta>*{{opacity:1!important;transform:none!important}}</style></noscript>
 </head>
 <body>
@@ -60,9 +61,9 @@ page = f"""<!doctype html>
 <header class="hero" id="inicio">
   <div class="hero__fondo" aria-hidden="true"><i class="capa"></i><i class="capa viento viento--tronco"></i><i class="capa viento viento--hojas"></i></div>
   <nav class="nav" aria-label="Principal">
-    <a href="#marca">Marca</a>
+    <a href="#marca">El vino</a>
     <a href="#origen">Origen</a>
-    <a href="#vino-en-accion">En acción</a>
+    <a href="#vino-en-accion">Para negocios</a>
     <a href="#envios">Comprar</a>
   </nav>
   <div class="hero__grid">
@@ -118,15 +119,12 @@ page = f"""<!doctype html>
     </div>
     <div class="col__centro"></div>
     <div class="col col--der reveal">
-      <dl class="ficha ficha--dos">
-        <div><dt class="detalle">Provincia</dt><dd>Mendoza</dd></div>
-        <div><dt class="detalle">Departamento</dt><dd>San Rafael</dd></div>
-        <div><dt class="detalle">Zona</dt><dd>Las Paredes</dd></div>
-        <div><dt class="detalle">Registro INV</dt><dd>K72643</dd></div>
-        <div class="ancho"><dt class="detalle">Elabora y fracciona</dt><dd>Almabras S.A.</dd></div>
-        <div class="ancho"><dt class="detalle">Bodega</dt><dd class="chica">Los Sauces 2227, Las Paredes, San Rafael</dd></div>
-      </dl>
-      <p class="nota">Vino de libre circulación, con certificado de análisis del INV.</p>
+      <p class="frase">Malbec del sur de Mendoza, hecho en San Rafael.</p>
+      <ul class="notas-chicas">
+        <li><span class="detalle">Elabora y fracciona</span>Almabras S.A.</li>
+        <li><span class="detalle">Bodega</span>Los Sauces 2227, Las Paredes, San Rafael</li>
+        <li><span class="detalle">Registro INV</span>K72643. Vino de libre circulación, con certificado de análisis del INV.</li>
+      </ul>
     </div>
   </div>
   <img class="mbotella" src="assets/botella.webp" alt="" aria-hidden="true" width="332" height="1200" loading="lazy" decoding="async">
@@ -173,6 +171,7 @@ page = f"""<!doctype html>
         <li><span class="paso__n">3</span><div><strong>Coordiná el pago y el envío</strong><span>Sucursal o domicilio, por WhatsApp.</span></div></li>
       </ol>
       <!-- A CONFIRMAR con el cliente: vigencia de la oferta de fin de año. Envío: regla confirmada el 19/11/2026 (gratis desde 3 cajas) -->
+      <p class="oferta"><strong>Oferta de fin de año:</strong> caja de seis botellas y envío a domicilio sin cargo desde 3 cajas.</p>
       {btn("Consultá por la oferta de fin de año")}
     </div>
   </div>
