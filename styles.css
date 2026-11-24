@@ -385,11 +385,8 @@ p,li{text-wrap:pretty}
     @keyframes foto-sale{to{transform:scale(1.1)}}
     .hero__fondo{animation:foto-sale linear both;animation-timeline:scroll(root);animation-range:0 110vh}
     /* cada sección se despide al salir: se corre hacia arriba y se apaga, mientras entra la siguiente */
-    @keyframes seccion-sale{from{opacity:1;transform:none}to{opacity:.18;transform:translateY(-6vh) scale(.965)}}
-    .card.a-sale:not(.card--foto) .card__grid{animation:seccion-sale linear both;animation-timeline:view();animation-range:exit 5% exit 85%;transform-origin:50% 100%}
-    /* cada sección nueva sube como una hoja: llega más chica y se abre hasta ocupar todo el ancho (solo transform: no repinta nada) */
-    @keyframes hoja-entra{from{transform:translateY(16vh) scale(.88)}to{transform:none}}
-    .pila>.card.a-entra:not(.card--foto){transform-origin:50% 0;animation:hoja-entra linear both;animation-timeline:view();animation-range:entry 0% entry 75%}
+    @keyframes seccion-sale{from{opacity:1;transform:none}to{opacity:.45;transform:translateY(-3vh)}}
+    .card.a-sale:not(.card--foto) .card__grid{animation:seccion-sale linear both;animation-timeline:view();animation-range:exit 45% exit 100%;transform-origin:50% 100%}
   }
 }
 
@@ -433,6 +430,3 @@ p,li{text-wrap:pretty}
 
 /* el fondo del pie (300 KB) se pide recién cuando el pie está por aparecer */
 .pie.lista{background-image:url("assets/pie-andes.webp")}
-
-/* sombra fija en el borde superior de cada sección (antes se animaba y repintaba una zona enorme en cada cuadro) */
-.pila>.card:not(:first-child){box-shadow:0 -30px 50px -34px rgba(15,22,51,.35)}

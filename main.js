@@ -90,7 +90,6 @@
   function estadoCartas(lista) {
     var vh = vhActual;
     lista.forEach(function (t) {
-      t.c.classList.toggle("a-entra", t.top > -2 && t.top < vh * 1.05);
       t.c.classList.toggle("a-sale", t.top < 0 && t.bottom > -vh * 0.1);
     });
   }
