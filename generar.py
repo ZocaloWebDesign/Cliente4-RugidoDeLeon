@@ -44,7 +44,7 @@ page = f"""<!doctype html>
 <link rel="preload" href="assets/hero-leon-celular.webp" as="image" media="(max-width: 860px)" fetchpriority="high">
 <link rel="preload" href="assets/botella.webp" as="image">
 <link rel="preload" href="fonts/LibreBaskerville-Variable.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="styles.css?v=168">
+<link rel="stylesheet" href="styles.css?v=169">
 <noscript><style>.reveal>*{{opacity:1!important;transform:none!important}}.ln>span{{transform:none!important}}.hero__cta>*{{opacity:1!important;transform:none!important}}</style></noscript>
 </head>
 <body>
@@ -221,13 +221,18 @@ page = f"""<!doctype html>
 <!-- Aviso de mayoría de edad -->
 <div class="edad" id="edad" role="dialog" aria-modal="true" aria-labelledby="t-edad" hidden>
   <div class="edad__caja">
-    <h2 id="t-edad">¿Sos mayor de 18 años?</h2>
-    <p>Este sitio promociona bebidas alcohólicas. La venta está prohibida a menores de 18 años.</p>
-    <div class="edad__botones">
-      <button class="btn" id="edad-si" type="button">Sí, soy mayor de 18</button>
-      <button class="btn btn--sec" id="edad-no" type="button">No</button>
+    <div class="edad__lado" aria-hidden="true"><img src="assets/botella.webp" alt="" width="332" height="1200" decoding="async"></div>
+    <div class="edad__cuerpo">
+      <span class="edad__sello" aria-hidden="true">+18</span>
+      <h2 id="t-edad">¿Sos mayor de 18 años?</h2>
+      <p class="edad__txt">Este sitio promociona bebidas alcohólicas. La venta está prohibida a menores de 18 años.</p>
+      <div class="edad__botones">
+        <button class="btn" id="edad-si" type="button">Sí, soy mayor de 18</button>
+        <button class="btn btn--sec" id="edad-no" type="button">No</button>
+      </div>
+      <p class="edad__nota" id="edad-nota" hidden>Gracias por tu honestidad. Volvé cuando tengas 18 años.</p>
+      <p class="edad__legal">{LEGAL}</p>
     </div>
-    <p class="edad__nota" id="edad-nota" hidden>Gracias por tu honestidad. Volvé cuando tengas 18 años.</p>
   </div>
 </div>
 
