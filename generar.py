@@ -44,7 +44,7 @@ page = f"""<!doctype html>
 <link rel="preload" href="assets/hero-leon-celular.webp" as="image" media="(max-width: 860px)" fetchpriority="high">
 <link rel="preload" href="assets/botella.webp" as="image">
 <link rel="preload" href="fonts/LibreBaskerville-Variable.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="styles.css?v=161">
+<link rel="stylesheet" href="styles.css?v=168">
 <noscript><style>.reveal>*{{opacity:1!important;transform:none!important}}.ln>span{{transform:none!important}}.hero__cta>*{{opacity:1!important;transform:none!important}}</style></noscript>
 </head>
 <body>
@@ -67,7 +67,7 @@ page = f"""<!doctype html>
     <a href="#envios">Comprar</a>
   </nav>
   <div class="hero__grid">
-    <h1 class="hero__titulo">La libertad no se negocia,<br>se conquista.</h1>
+    <h1 class="hero__titulo"><span class="ln" style="--l:0"><span>La libertad no se negocia,</span></span> <span class="ln" style="--l:1"><span>se conquista.</span></span></h1>
     <div class="hero__cta">
       <p class="hero__texto">Malbec 2025<br>San Rafael · Mendoza</p>
       {btn()}
