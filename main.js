@@ -53,22 +53,27 @@
 
   /* 3b. Letras de "Rugido de León": la foto de adentro se desplaza hacia abajo al bajar y hacia arriba al subir */
   var letras = document.querySelectorAll(".h-foto");
-  function moverLetras() {
-    if (reduce) return;
-    var vh = window.innerHeight;
-    letras.forEach(function (el) {
+  var vhActual = window.innerHeight;
+  function leerLetras() {
+    if (reduce) return [];
+    return Array.prototype.map.call(letras, function (el) {
       var r = el.getBoundingClientRect();
-      var p = (vh - r.top) / (vh + r.height);
-      p = Math.min(1, Math.max(0, p));
-      el.style.setProperty("--py", ((1 - p) * 100).toFixed(1) + "%");
+      return { el: el, top: r.top, h: r.height };
+    });
+  }
+  function escribirLetras(lec) {
+    lec.forEach(function (l) {
+      if (l.top > vhActual || l.top + l.h < 0) return;     /* fuera de pantalla: no se repinta nada */
+      var p = Math.min(1, Math.max(0, (vhActual - l.top) / (vhActual + l.h)));
+      l.el.style.setProperty("--py", ((1 - p) * 100).toFixed(1) + "%");
     });
   }
   /* 3c. Momento principal: al bajar, el título del home se retira (se aleja y se apaga) mientras la primera sección lo cubre */
   var hTitulo = document.querySelector(".hero__titulo");
   var hCta = document.querySelector(".hero__cta");
-  function retirarHome() {
+  function retirarHome(sy) {
     if (reduce || !hTitulo) return;
-    var p = Math.min(1, Math.max(0, window.scrollY / (window.innerHeight * 0.85)));
+    var p = Math.min(1, Math.max(0, sy / (vhActual * 0.85)));
     var q = p * p;                                   /* arranca suave y se acelera cuando la sección ya lo cubre */
     if (q < 0.002) {                                  /* en reposo no se deja ninguna capa animada: el texto se dibuja nítido */
       hTitulo.style.opacity = ""; hTitulo.style.transform = "";
@@ -82,17 +87,35 @@
 
   /* 3c-bis. Las transiciones entre secciones solo corren mientras la sección entra o sale; en reposo el texto queda sin capas y se ve nítido */
   var cartas = document.querySelectorAll(".pila > .card:not(.card--foto)");
-  function estadoCartas() {
-    var vh = window.innerHeight;
-    cartas.forEach(function (c) {
-      var r = c.getBoundingClientRect();
-      c.classList.toggle("a-entra", r.top > -2 && r.top < vh * 1.05);
-      c.classList.toggle("a-sale", r.top < 0 && r.bottom > -vh * 0.1);
+  function estadoCartas(lista) {
+    var vh = vhActual;
+    lista.forEach(function (t) {
+      t.c.classList.toggle("a-entra", t.top > -2 && t.top < vh * 1.05);
+      t.c.classList.toggle("a-sale", t.top < 0 && t.bottom > -vh * 0.1);
     });
   }
 
+  /* 3e. El fondo del pie se carga cuando el pie está por aparecer */
+  var pie = document.getElementById("pie");
+  if (pie) {
+    if ("IntersectionObserver" in window) {
+      var iop = new IntersectionObserver(function (es) {
+        if (es[0].isIntersecting) { pie.classList.add("lista"); iop.disconnect(); }
+      }, { rootMargin: "900px 0px" });
+      iop.observe(pie);
+    } else { pie.classList.add("lista"); }
+  }
+
   var tl = false;
-  function tick() { moverLetras(); retirarHome(); estadoCartas(); }
+  function tick() {
+    vhActual = window.innerHeight;
+    var lec = leerLetras();                              /* lecturas */
+    var tarjetas = Array.prototype.map.call(cartas, function (c) { var r = c.getBoundingClientRect(); return { c: c, top: r.top, bottom: r.bottom }; });
+    var sy = window.scrollY;
+    escribirLetras(lec);                                 /* escrituras */
+    retirarHome(sy);
+    estadoCartas(tarjetas);
+  }
   function pedirLetras() { if (!tl) { tl = true; requestAnimationFrame(function () { tl = false; tick(); }); } }
   window.addEventListener("scroll", pedirLetras, { passive: true });
   window.addEventListener("resize", pedirLetras);

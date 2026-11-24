@@ -214,7 +214,7 @@ p,li{text-wrap:pretty}
 .cierre .btn{margin-top:8px}
 
 /* ---- pie: toda la foto de la cordillera es el pie. Solo blanco y negro ---- */
-.pie{position:relative;z-index:1;background:#000 url("assets/pie-andes.webp") center/cover no-repeat;color:#fff;overflow:hidden;isolation:isolate}
+.pie{position:relative;z-index:1;background:#000 center/cover no-repeat;color:#fff;overflow:hidden;isolation:isolate}
 .pie::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(#fff 0,rgba(255,255,255,.7) 7%,rgba(255,255,255,0) 22%),linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.56) 62%,rgba(0,0,0,.3))}
 .pie__top{display:grid;grid-template-columns:1.5fr 1fr 1.1fr;gap:clamp(32px,5vw,80px);align-items:start;padding:clamp(120px,15vw,210px) var(--pad-x) clamp(24px,3vw,48px)}
 .pie__lema{margin:0 0 28px;font:600 clamp(2rem,3.4vw,3.2rem)/1.05 var(--cond);text-transform:uppercase;letter-spacing:.04em;color:#fff;max-width:16ch}
@@ -430,3 +430,6 @@ p,li{text-wrap:pretty}
 /* origen: el mapa lleva la foto del viñedo; los textos llevan un halo claro para leerse encima */
 .mapa-fondo .mapa__prov{opacity:.42}
 #origen .col{text-shadow:0 0 12px rgba(255,255,255,.95),0 0 4px rgba(255,255,255,.9),0 0 1px #fff}
+
+/* el fondo del pie (300 KB) se pide recién cuando el pie está por aparecer */
+.pie.lista{background-image:url("assets/pie-andes.webp")}
