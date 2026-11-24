@@ -70,13 +70,29 @@
     if (reduce || !hTitulo) return;
     var p = Math.min(1, Math.max(0, window.scrollY / (window.innerHeight * 0.85)));
     var q = p * p;                                   /* arranca suave y se acelera cuando la sección ya lo cubre */
+    if (q < 0.002) {                                  /* en reposo no se deja ninguna capa animada: el texto se dibuja nítido */
+      hTitulo.style.opacity = ""; hTitulo.style.transform = "";
+      if (hCta) { hCta.style.opacity = ""; }
+      return;
+    }
     hTitulo.style.opacity = (1 - q).toFixed(3);
     hTitulo.style.transform = "translate3d(0," + (-q * 44).toFixed(1) + "px,0) scale(" + (1 - q * 0.04).toFixed(4) + ")";
     if (hCta) { hCta.style.opacity = (1 - q).toFixed(3); }
   }
 
+  /* 3c-bis. Las transiciones entre secciones solo corren mientras la sección entra o sale; en reposo el texto queda sin capas y se ve nítido */
+  var cartas = document.querySelectorAll(".pila > .card:not(.card--foto)");
+  function estadoCartas() {
+    var vh = window.innerHeight;
+    cartas.forEach(function (c) {
+      var r = c.getBoundingClientRect();
+      c.classList.toggle("a-entra", r.top > -2 && r.top < vh * 1.05);
+      c.classList.toggle("a-sale", r.top < 0 && r.bottom > -vh * 0.1);
+    });
+  }
+
   var tl = false;
-  function tick() { moverLetras(); retirarHome(); }
+  function tick() { moverLetras(); retirarHome(); estadoCartas(); }
   function pedirLetras() { if (!tl) { tl = true; requestAnimationFrame(function () { tl = false; tick(); }); } }
   window.addEventListener("scroll", pedirLetras, { passive: true });
   window.addEventListener("resize", pedirLetras);

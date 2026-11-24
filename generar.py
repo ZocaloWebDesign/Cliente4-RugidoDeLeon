@@ -12,6 +12,8 @@ def mapa_svg():
         f'<svg class="mapa-fondo" viewBox="0 0 {W:.0f} {H:.0f}" role="img" '
         f'aria-label="Mapa de Argentina con la provincia de Mendoza resaltada y San Rafael marcado" '
         f'style="--fx:{sx/W:.4f};--fy:{sy/H:.4f};--ar:{W/H:.4f}">'
+        f'<defs><pattern id="mapa-foto" patternUnits="userSpaceOnUse" width="{W:.0f}" height="{H:.0f}">'
+        f'<image href="assets/vinedo-letras.webp" width="{W:.0f}" height="{H:.0f}" preserveAspectRatio="xMidYMid slice"/></pattern></defs>'
         f'<g class="mapa__prov">{otros}</g>'
         f'<path class="mapa__mza" d="{MAP["paths"]["Mendoza"]}"/>'
         f'<circle class="mapa__pt-o" cx="{sx:.0f}" cy="{sy:.0f}" r="6"/>'
@@ -44,7 +46,7 @@ page = f"""<!doctype html>
 <link rel="preload" href="assets/hero-leon-celular.webp" as="image" media="(max-width: 860px)" fetchpriority="high">
 <link rel="preload" href="assets/botella.webp" as="image">
 <link rel="preload" href="fonts/LibreBaskerville-Variable.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="styles.css?v=169">
+<link rel="stylesheet" href="styles.css?v=171">
 <noscript><style>.reveal>*{{opacity:1!important;transform:none!important}}.ln>span{{transform:none!important}}.hero__cta>*{{opacity:1!important;transform:none!important}}</style></noscript>
 </head>
 <body>
@@ -152,7 +154,7 @@ page = f"""<!doctype html>
   <img class="mbotella" src="assets/botella.webp" alt="" aria-hidden="true" width="332" height="1200" loading="lazy" decoding="async">
 </section>
 
-<section class="card acc-bordo" id="envios" aria-labelledby="t-envios">
+<section class="card acc-envios" id="envios" aria-labelledby="t-envios">
   <div class="card__grid">
     <div class="col col--izq reveal">
       <h2 class="h2" id="t-envios">Envíos</h2>
@@ -236,7 +238,7 @@ page = f"""<!doctype html>
   </div>
 </div>
 
-<script src="main.js?v=140"></script>
+<script src="main.js?v=141"></script>
 </body>
 </html>
 """
