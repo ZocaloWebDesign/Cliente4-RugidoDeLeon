@@ -66,15 +66,15 @@ p,li{text-wrap:pretty}
 .hero__fondo::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(15,22,51,.18),rgba(15,22,51,0) 40%,rgba(15,22,51,0) 70%,rgba(15,22,51,.3))}
 .capa{position:absolute;inset:0;display:block;background:url("assets/hero-leon.webp") center bottom/cover no-repeat}
 .hero::before{content:"";position:absolute;inset:0 0 auto 0;height:300px;background:linear-gradient(rgba(15,22,51,.42),rgba(15,22,51,.22) 58%,rgba(15,22,51,0));pointer-events:none;z-index:0}
-.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:170px;background:linear-gradient(rgba(15,22,51,0),rgba(15,22,51,.5));pointer-events:none;z-index:0}
+.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:230px;background:linear-gradient(rgba(15,22,51,0),rgba(15,22,51,.66));pointer-events:none;z-index:0}
 .nav{position:absolute;z-index:1;top:14px;left:0;right:0;display:flex;justify-content:center;gap:clamp(24px,4vw,64px);font:600 1.0625rem/1 var(--sans)}
 .nav a{text-decoration:none;display:inline-flex;align-items:center;min-height:44px;padding:0 6px}
 @media (hover:hover) and (pointer:fine){.nav a:hover{text-decoration:underline;text-underline-offset:.3em}}
 .hero__grid{position:static}
-.hero__titulo{position:absolute;z-index:1;left:0;right:0;top:11vh;margin:0;padding:0 var(--pad-x);text-align:center;font:700 clamp(2.4rem,5.4vw,5.6rem)/1.06 var(--serif);letter-spacing:-.015em;text-shadow:0 2px 24px rgba(15,22,51,.6),0 0 2px rgba(15,22,51,.35)}
+.hero__titulo{position:absolute;z-index:1;left:0;right:0;top:8vh;margin:0;padding:0 var(--pad-x);text-align:center;font:700 clamp(2.4rem,4.8vw,5rem)/1.06 var(--serif);letter-spacing:-.015em;text-shadow:0 2px 22px rgba(0,0,0,.5),0 1px 2px rgba(0,0,0,.4)}
 .hero__cta{position:absolute;z-index:1;left:var(--pad-x);right:var(--pad-x);bottom:9vh;display:flex;flex-direction:row-reverse;align-items:flex-end;justify-content:space-between;gap:24px}
-.hero__texto{margin:0;text-align:right;font:600 clamp(.875rem,1.1vw,1rem)/1.5 var(--cond);letter-spacing:.18em;text-transform:uppercase;color:var(--lavanda)}
-.hero__legal{z-index:1;position:absolute;left:var(--pad-x);bottom:24px;margin:0;font-size:var(--fs-legal);color:var(--lavanda)}
+.hero__texto{position:relative;z-index:1;margin:0;text-align:right;font:600 clamp(.875rem,1.1vw,1rem)/1.5 var(--cond);letter-spacing:.18em;text-transform:uppercase;color:var(--crema);text-shadow:0 1px 10px rgba(0,0,0,.65)}
+.hero__legal{z-index:1;position:absolute;left:var(--pad-x);bottom:24px;margin:0;font-size:var(--fs-legal);color:var(--crema);text-shadow:0 1px 8px rgba(0,0,0,.6)}
 
 /* ---- botón con animación ---- */
 .btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 28px;border:0;border-radius:999px;background:var(--boton);color:#fff;font:600 1.125rem/1 var(--sans);letter-spacing:.01em;text-decoration:none;cursor:pointer;white-space:nowrap;touch-action:manipulation;transition:background-color .16s ease,transform .16s var(--ease)}
@@ -286,11 +286,14 @@ p,li{text-wrap:pretty}
   .hero__fondo::after{background:linear-gradient(rgba(15,22,51,.1),rgba(15,22,51,0) 36%,rgba(15,22,51,0) 70%,rgba(15,22,51,.3))}
   .hero{justify-content:flex-start;padding:0 var(--pad-x)}
   .hero::before{height:230px}
+  .hero::after{height:420px;background:linear-gradient(rgba(15,22,51,0),rgba(15,22,51,.5) 30%,rgba(15,22,51,.82))}
+  .hero__texto{text-shadow:0 1px 3px rgba(0,0,0,.8),0 0 14px rgba(0,0,0,.6)}
       .nav{justify-content:space-between;padding:0 20px;gap:8px;font-size:.9375rem;top:16px}
   .nav a{padding:0 2px}
   .hero__titulo{top:84px;font-size:clamp(2.1rem,9.4vw,3.2rem)}
   .hero__cta{display:contents}
-  .hero__texto{position:absolute;left:0;right:0;bottom:148px;text-align:center;font-size:.8125rem}
+  .botella::after{width:120%;height:1.6dvh;bottom:-.6dvh}
+  .hero__texto{position:absolute;left:0;right:0;bottom:142px;text-align:center;font-size:.8125rem;font-weight:700}
   .hero .btn{position:absolute;z-index:2;left:var(--pad-x);right:var(--pad-x);bottom:84px}
   .hero__legal{left:var(--pad-x);right:var(--pad-x);text-align:center;color:var(--crema);bottom:18px;font-size:.8125rem;line-height:1.4}
   /* la botella fija acompaña solo la entrada; en las tarjetas va una propia */
