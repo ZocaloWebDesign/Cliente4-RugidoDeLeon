@@ -20,7 +20,7 @@
   --fs-lead:clamp(1.0625rem,1.5vw,1.3125rem);
   --fs-cuerpo:1.0625rem; --fs-legal:.875rem;
   --ease:cubic-bezier(.23,1,.32,1);
-  --b-alto:77.8vh; --b-base:9.8vh;            /* botella: alto y distancia al borde inferior */
+  --b-alto:60vh; --b-base:8vh;            /* botella: alto y distancia al borde inferior */
   --b-top:calc(100vh - var(--b-base) - var(--b-alto));
   --pad-x:clamp(24px,6.7vw,96px);
   --lado:0px;              /* margen lateral de la pila de tarjetas: deja ver el fondo */
@@ -63,26 +63,17 @@ p,li{text-wrap:pretty}
 /* ---- hero (home a pantalla completa) ---- */
 .hero{position:sticky;top:0;isolation:isolate;min-height:100dvh;color:var(--crema);display:flex;flex-direction:column;justify-content:center;padding:0 var(--pad-x)}
 .hero__fondo{position:absolute;inset:0;overflow:hidden;z-index:-1}
-.hero__fondo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,22,51,.5),rgba(15,22,51,.1) 52%,rgba(15,22,51,.42)),rgba(15,22,51,.08)}
-.capa{position:absolute;inset:0;display:block;background:url("assets/hero-escritorio.webp") center bottom/cover no-repeat}
-/* viento: dos capas con la misma foto, recortadas a la zona de los árboles */
-.viento{
-  -webkit-mask-image:linear-gradient(to right,#000 0,#000 30%,transparent 42%),linear-gradient(to bottom,transparent 4%,#000 11%,#000 42%,transparent 51%);
-  mask-image:linear-gradient(to right,#000 0,#000 30%,transparent 42%),linear-gradient(to bottom,transparent 4%,#000 11%,#000 42%,transparent 51%);
-  -webkit-mask-composite:source-in;mask-composite:intersect}
-.viento--tronco{transform-origin:18% 50%}
-.viento--hojas{transform-origin:18% 30%;
-  -webkit-mask-image:linear-gradient(to right,#000 0,#000 30%,transparent 42%),linear-gradient(to bottom,transparent 4%,#000 10%,#000 32%,transparent 40%);
-  mask-image:linear-gradient(to right,#000 0,#000 30%,transparent 42%),linear-gradient(to bottom,transparent 4%,#000 10%,#000 32%,transparent 40%)}
-.hero::before{content:"";position:absolute;inset:0 0 auto 0;height:190px;background:linear-gradient(rgba(15,22,51,.7),rgba(15,22,51,.35) 55%,rgba(15,22,51,0));pointer-events:none;z-index:0}
-.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:170px;background:linear-gradient(rgba(15,22,51,0),rgba(15,22,51,.75));pointer-events:none;z-index:0}
+.hero__fondo::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(15,22,51,.18),rgba(15,22,51,0) 40%,rgba(15,22,51,0) 70%,rgba(15,22,51,.3))}
+.capa{position:absolute;inset:0;display:block;background:url("assets/hero-leon.webp") center bottom/cover no-repeat}
+.hero::before{content:"";position:absolute;inset:0 0 auto 0;height:300px;background:linear-gradient(rgba(15,22,51,.42),rgba(15,22,51,.22) 58%,rgba(15,22,51,0));pointer-events:none;z-index:0}
+.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:170px;background:linear-gradient(rgba(15,22,51,0),rgba(15,22,51,.5));pointer-events:none;z-index:0}
 .nav{position:absolute;z-index:1;top:14px;left:0;right:0;display:flex;justify-content:center;gap:clamp(24px,4vw,64px);font:600 1.0625rem/1 var(--sans)}
 .nav a{text-decoration:none;display:inline-flex;align-items:center;min-height:44px;padding:0 6px}
 @media (hover:hover) and (pointer:fine){.nav a:hover{text-decoration:underline;text-underline-offset:.3em}}
-.hero__grid{position:relative;z-index:1;display:grid;grid-template-columns:1fr minmax(240px,22vw) 1fr;align-items:center}
-.hero__titulo{margin:0;font:700 var(--fs-display)/1.25 var(--serif);letter-spacing:-.01em}
-.hero__cta{grid-column:3;display:flex;align-items:center;gap:24px;justify-content:flex-end;flex-wrap:wrap}
-.hero__texto{margin:0;font:500 clamp(1.0625rem,1.6vw,1.375rem)/1.4 var(--sans)}
+.hero__grid{position:static}
+.hero__titulo{position:absolute;z-index:1;left:0;right:0;top:11vh;margin:0;padding:0 var(--pad-x);text-align:center;font:700 clamp(2.4rem,5.4vw,5.6rem)/1.06 var(--serif);letter-spacing:-.015em;text-shadow:0 2px 24px rgba(15,22,51,.6),0 0 2px rgba(15,22,51,.35)}
+.hero__cta{position:absolute;z-index:1;left:var(--pad-x);right:var(--pad-x);bottom:9vh;display:flex;flex-direction:row-reverse;align-items:flex-end;justify-content:space-between;gap:24px}
+.hero__texto{margin:0;text-align:right;font:600 clamp(.875rem,1.1vw,1rem)/1.5 var(--cond);letter-spacing:.18em;text-transform:uppercase;color:var(--lavanda)}
 .hero__legal{z-index:1;position:absolute;left:var(--pad-x);bottom:24px;margin:0;font-size:var(--fs-legal);color:var(--lavanda)}
 
 /* ---- botón con animación ---- */
@@ -261,12 +252,6 @@ p,li{text-wrap:pretty}
 
 /* ---- animaciones (solo si el visitante no pidió menos movimiento) ---- */
 @media (prefers-reduced-motion:no-preference){
-  /* viento en los árboles del hero */
-  .viento{will-change:transform}
-  .viento--tronco{animation:balanceo 7s ease-in-out infinite alternate}
-  .viento--hojas{animation:hojas 2.6s ease-in-out infinite alternate}
-  @keyframes balanceo{0%{transform:skewX(-.8deg)}100%{transform:skewX(1.3deg)}}
-  @keyframes hojas{0%{transform:translate3d(-2.4px,.8px,0) skewX(-.4deg)}100%{transform:translate3d(2.6px,-.9px,0) skewX(.5deg)}}
   /* bloques: cada hijo entra escalonado */
   .reveal>*{opacity:0;transform:translateY(12px);transition:opacity .45s var(--ease),transform .45s var(--ease);transition-delay:calc(var(--i,0)*60ms)}
   .reveal.in>*{opacity:1;transform:none}
@@ -297,23 +282,15 @@ p,li{text-wrap:pretty}
 /* ---- celular ---- */
 @media (max-width:860px){
   :root{--b-alto:39dvh;--b-base:22.4dvh;--b-top:calc(100dvh - var(--b-base) - var(--b-alto));--pad-x:24px;--lado:0px;--radio:0px;--padc:22px;--h-cierre:0px}
-  .capa{background-image:url("assets/hero-celular.webp")}
-  .hero__fondo::after{background:rgba(15,22,51,.12)}
-  .hero{justify-content:flex-start;padding:84px var(--pad-x) 0;color:var(--medianoche)}
-  .hero::before{display:none}
-  /* viento en el celular: los álamos están más abajo en la foto vertical */
-  .viento{
-    -webkit-mask-image:linear-gradient(to right,transparent 10%,#000 17%,#000 44%,transparent 52%),linear-gradient(to bottom,transparent 55%,#000 61%,#000 70%,transparent 76%);
-    mask-image:linear-gradient(to right,transparent 10%,#000 17%,#000 44%,transparent 52%),linear-gradient(to bottom,transparent 55%,#000 61%,#000 70%,transparent 76%)}
-  .viento--tronco{transform-origin:30% 74%}
-  .viento--hojas{transform-origin:30% 66%;
-    -webkit-mask-image:linear-gradient(to right,transparent 10%,#000 17%,#000 44%,transparent 52%),linear-gradient(to bottom,transparent 55%,#000 60%,#000 66%,transparent 72%);
-    mask-image:linear-gradient(to right,transparent 10%,#000 17%,#000 44%,transparent 52%),linear-gradient(to bottom,transparent 55%,#000 60%,#000 66%,transparent 72%)}
-  .nav{justify-content:space-between;padding:0 20px;gap:8px;font-size:.9375rem;top:16px;color:var(--medianoche)}
+  .capa{background:url("assets/hero-leon-celular.webp") center bottom/cover no-repeat}
+  .hero__fondo::after{background:linear-gradient(rgba(15,22,51,.1),rgba(15,22,51,0) 36%,rgba(15,22,51,0) 70%,rgba(15,22,51,.3))}
+  .hero{justify-content:flex-start;padding:0 var(--pad-x)}
+  .hero::before{height:230px}
+      .nav{justify-content:space-between;padding:0 20px;gap:8px;font-size:.9375rem;top:16px}
   .nav a{padding:0 2px}
-  .hero__grid{position:static;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+  .hero__titulo{top:84px;font-size:clamp(2.1rem,9.4vw,3.2rem)}
   .hero__cta{display:contents}
-  .hero__texto{order:2;color:var(--texto)}
+  .hero__texto{position:absolute;left:0;right:0;bottom:148px;text-align:center;font-size:.8125rem}
   .hero .btn{position:absolute;z-index:2;left:var(--pad-x);right:var(--pad-x);bottom:84px}
   .hero__legal{left:var(--pad-x);right:var(--pad-x);text-align:center;color:var(--crema);bottom:18px;font-size:.8125rem;line-height:1.4}
   /* la botella fija acompaña solo la entrada; en las tarjetas va una propia */
@@ -350,3 +327,7 @@ p,li{text-wrap:pretty}
 .legal ul{padding-left:1.2em}
 .legal__aviso{margin:0 0 28px;padding:14px 18px;border-radius:14px;background:var(--lila-aviso);color:var(--texto)!important;font-weight:600}
 .legal__volver{display:inline-flex;align-items:center;min-height:44px;margin-bottom:12px;font-weight:600;color:var(--boton)}
+
+/* ---- botón de la home: sin animación de borde y más sobrio ---- */
+.hero .btn--wa::before{display:none}
+.hero .btn{border-radius:14px;min-height:56px;padding:0 30px;font-weight:600;box-shadow:0 10px 30px -10px rgba(0,0,0,.45)}

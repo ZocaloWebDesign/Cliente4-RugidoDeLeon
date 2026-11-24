@@ -38,13 +38,13 @@ page = f"""<!doctype html>
 <meta name="description" content="Malbec 2025 de San Rafael, Mendoza. Seco, de frutas rojas y taninos suaves. Pedilo por WhatsApp.">
 <meta property="og:title" content="Rugido de León | La libertad no se negocia, se conquista">
 <meta property="og:description" content="Malbec 2025 de San Rafael, Mendoza. Pedilo por WhatsApp.">
-<meta property="og:image" content="assets/hero-escritorio.jpg">
+<meta property="og:image" content="assets/og.jpg">
 <meta name="theme-color" content="#0F1633">
-<link rel="preload" href="assets/hero-escritorio.webp" as="image" media="(min-width: 861px)" fetchpriority="high">
-<link rel="preload" href="assets/hero-celular.webp" as="image" media="(max-width: 860px)" fetchpriority="high">
+<link rel="preload" href="assets/hero-leon.webp" as="image" media="(min-width: 861px)" fetchpriority="high">
+<link rel="preload" href="assets/hero-leon-celular.webp" as="image" media="(max-width: 860px)" fetchpriority="high">
 <link rel="preload" href="assets/botella.webp" as="image">
 <link rel="preload" href="fonts/LibreBaskerville-Variable.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="styles.css?v=130">
+<link rel="stylesheet" href="styles.css?v=156">
 <noscript><style>.reveal>*{{opacity:1!important;transform:none!important}}.ln>span{{transform:none!important}}.hero__cta>*{{opacity:1!important;transform:none!important}}</style></noscript>
 </head>
 <body>
@@ -59,7 +59,7 @@ page = f"""<!doctype html>
 </div>
 
 <header class="hero" id="inicio">
-  <div class="hero__fondo" aria-hidden="true"><i class="capa"></i><i class="capa viento viento--tronco"></i><i class="capa viento viento--hojas"></i></div>
+  <div class="hero__fondo" aria-hidden="true"><i class="capa"></i></div>
   <nav class="nav" aria-label="Principal">
     <a href="#marca">El vino</a>
     <a href="#origen">Origen</a>
@@ -67,13 +67,13 @@ page = f"""<!doctype html>
     <a href="#envios">Comprar</a>
   </nav>
   <div class="hero__grid">
-    <h1 class="hero__titulo">La libertad<br>no se negocia,<br>se conquista.</h1>
+    <h1 class="hero__titulo">La libertad no se negocia,<br>se conquista.</h1>
     <div class="hero__cta">
-      <p class="hero__texto">Seco, de frutas rojas<br>y taninos suaves.</p>
+      <p class="hero__texto">Malbec 2025<br>San Rafael · Mendoza</p>
       {btn()}
     </div>
   </div>
-  <p class="vh">Botella de Rugido de León Malbec 2025, con cápsula violeta y etiqueta azul y crema con un león rugiendo, apoyada sobre un tronco frente a una estancia de San Rafael, Mendoza.</p>
+  <p class="vh">Botella de Rugido de León Malbec 2025, con cápsula violeta y etiqueta azul y crema con un león rugiendo, apoyada sobre un muro de piedra, con un viñedo detrás y los Andes nevados y rosados por el atardecer al fondo.</p>
   <p class="hero__legal">{LEGAL}</p>
 </header>
 
@@ -231,7 +231,7 @@ page = f"""<!doctype html>
   </div>
 </div>
 
-<script src="main.js?v=130"></script>
+<script src="main.js?v=140"></script>
 </body>
 </html>
 """
