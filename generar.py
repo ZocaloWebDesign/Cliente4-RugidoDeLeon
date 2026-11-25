@@ -5,21 +5,29 @@ MAP = json.load(open("datos/mapa-argentina.json"))
 W, H = MAP["w"], MAP["h"]
 
 
+def mapa_silueta():
+    """Silueta de Argentina (todas las provincias) para recortar la foto del viñedo, como las letras del título."""
+    todas = "".join(f'<path d="{d}"/>' for d in MAP["paths"].values())
+    with open("assets/mapa-silueta.svg", "w", encoding="utf-8") as f:
+        f.write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W:.0f} {H:.0f}" preserveAspectRatio="none">'
+                f'<g fill="#000" stroke="#000" stroke-width="1">{todas}</g></svg>')
+
+
 def mapa_svg():
+    mapa_silueta()
     otros = "".join(f'<path d="{d}"/>' for n, d in MAP["paths"].items() if n != "Mendoza")
     sx, sy = MAP["sanrafael"]
     return (
-        f'<svg class="mapa-fondo" viewBox="0 0 {W:.0f} {H:.0f}" role="img" '
-        f'aria-label="Mapa de Argentina con la provincia de Mendoza resaltada y San Rafael marcado" '
-        f'style="--fx:{sx/W:.4f};--fy:{sy/H:.4f};--ar:{W/H:.4f}">'
-        f'<defs><pattern id="mapa-foto" patternUnits="userSpaceOnUse" width="{W:.0f}" height="{H:.0f}">'
-        f'<image href="assets/vinedo-letras.webp" width="{W:.0f}" height="{H:.0f}" preserveAspectRatio="xMidYMid slice"/></pattern></defs>'
+        f'<div class="mapa-fondo" style="--fx:{sx/W:.4f};--fy:{sy/H:.4f};--ar:{W/H:.4f}">'
+        f'<div class="mapa-foto" aria-hidden="true"></div>'
+        f'<svg class="mapa-svg" viewBox="0 0 {W:.0f} {H:.0f}" preserveAspectRatio="none" role="img" '
+        f'aria-label="Mapa de Argentina con la provincia de Mendoza resaltada y San Rafael marcado">'
         f'<g class="mapa__prov">{otros}</g>'
         f'<path class="mapa__mza" d="{MAP["paths"]["Mendoza"]}"/>'
-        f'<circle class="mapa__pt-o" cx="{sx:.0f}" cy="{sy:.0f}" r="6"/>'
-        f'<circle class="mapa__pt-i" cx="{sx:.0f}" cy="{sy:.0f}" r="3"/>'
-        f'<text class="mapa__rotulo" x="{sx+9:.0f}" y="{sy+2.5:.0f}">San Rafael</text>'
-        f'</svg>'
+        f'<circle class="mapa__pt-o" cx="{sx:.0f}" cy="{sy:.0f}" r="13"/>'
+        f'<circle class="mapa__pt-i" cx="{sx:.0f}" cy="{sy:.0f}" r="6.5"/>'
+        f'<text class="mapa__rotulo" x="{sx+19:.0f}" y="{sy+7:.0f}">San Rafael</text>'
+        f'</svg></div>'
     )
 
 
@@ -46,7 +54,7 @@ page = f"""<!doctype html>
 <link rel="preload" href="assets/hero-leon-celular.webp" as="image" media="(max-width: 860px)" fetchpriority="high">
 <link rel="preload" href="assets/botella.webp" as="image">
 <link rel="preload" href="fonts/LibreBaskerville-Variable.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="styles.css?v=175">
+<link rel="stylesheet" href="styles.css?v=179">
 <noscript><style>.pie{{background-image:url("assets/pie-andes.webp")}}.reveal>*{{opacity:1!important;transform:none!important}}.ln>span{{transform:none!important}}.hero__cta>*{{opacity:1!important;transform:none!important}}</style></noscript>
 </head>
 <body>
@@ -113,15 +121,11 @@ page = f"""<!doctype html>
 <section class="card acc-azul" id="origen" aria-labelledby="t-origen">
   {mapa_svg()}
   <div class="card__grid">
-    <div class="col col--izq reveal">
-      <h2 class="h1 h1--chico" id="t-origen">Hecho en San Rafael,<br>Mendoza.</h2>
-      <div class="origen">
-        <p class="cuerpo">Se elabora y fracciona en la bodega Almabras, en Las Paredes, al sur de Mendoza, con Malbec de la zona.</p>
-      </div>
-    </div>
+    <div class="col col--izq col--mapa" aria-hidden="true"></div>
     <div class="col__centro"></div>
     <div class="col col--der reveal">
-      <p class="frase">Malbec del sur de Mendoza, hecho en San Rafael.</p>
+      <h2 class="h1 h1--chico" id="t-origen">Hecho en San Rafael,<br>Mendoza.</h2>
+      <p class="cuerpo">Se elabora y fracciona en la bodega Almabras, en Las Paredes, al sur de Mendoza, con Malbec de la zona.</p>
       <ul class="notas-chicas">
         <li><span class="detalle">Elabora y fracciona</span>Almabras S.A.</li>
         <li><span class="detalle">Bodega</span>Los Sauces 2227, Las Paredes, San Rafael</li>
@@ -238,7 +242,8 @@ page = f"""<!doctype html>
   </div>
 </div>
 
-<script src="main.js?v=143"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.28/dist/lenis.min.js"></script>
+<script src="main.js?v=145"></script>
 </body>
 </html>
 """

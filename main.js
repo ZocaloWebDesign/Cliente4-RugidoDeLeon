@@ -2,6 +2,12 @@
   "use strict";
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* 0. Scroll suave con Lenis (no se usa con movimiento reducido; en pantallas táctiles queda el scroll nativo) */
+  var lenis = null;
+  if (!reduce && window.Lenis) {
+    lenis = new Lenis({ duration: 1.15, easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); }, anchors: true, autoRaf: true });
+  }
+
   /* 1. Títulos: cada línea (separada por <br>) se envuelve para animarla con una máscara */
   document.querySelectorAll(".display,.h1,.h2,.hero__titulo").forEach(function (h) {
     var lineas = h.innerHTML.split(/<br\s*\/?>/i);
@@ -27,6 +33,7 @@
     edad.hidden = false;
     bloquear(true);
     document.body.style.overflow = "hidden";
+    if (lenis) lenis.stop();
     document.getElementById("edad-si").focus();
   } else {
     requestAnimationFrame(listo);
@@ -35,6 +42,7 @@
     try { sessionStorage.setItem("rdl-edad", "1"); } catch (e) {}
     bloquear(false);
     document.body.style.overflow = "";
+    if (lenis) lenis.start();
     listo();
     if (reduce) { edad.hidden = true; }
     else { edad.classList.add("saliendo"); setTimeout(function () { edad.hidden = true; edad.classList.remove("saliendo"); }, 190); }
@@ -52,7 +60,7 @@
   });
 
   /* 3b. Letras de "Rugido de León": la foto de adentro se desplaza hacia abajo al bajar y hacia arriba al subir */
-  var letras = document.querySelectorAll(".h-foto");
+  var letras = document.querySelectorAll(".h-foto, .mapa-foto");  /* el mapa de origen usa el mismo efecto */
   var vhActual = window.innerHeight;
   function leerLetras() {
     if (reduce) return [];
