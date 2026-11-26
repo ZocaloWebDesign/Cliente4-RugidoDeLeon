@@ -5,25 +5,22 @@ MAP = json.load(open("datos/mapa-argentina.json"))
 W, H = MAP["w"], MAP["h"]
 
 
-def mapa_silueta():
-    """Silueta de Argentina (todas las provincias) para recortar la foto del viñedo, como las letras del título."""
-    todas = "".join(f'<path d="{d}"/>' for d in MAP["paths"].values())
-    with open("assets/mapa-silueta.svg", "w", encoding="utf-8") as f:
-        f.write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W:.0f} {H:.0f}" preserveAspectRatio="none">'
-                f'<g fill="#000" stroke="#000" stroke-width="1">{todas}</g></svg>')
-
-
 def mapa_svg():
-    mapa_silueta()
-    otros = "".join(f'<path d="{d}"/>' for n, d in MAP["paths"].items() if n != "Mendoza")
+    """Mapa de origen: la foto del viñedo (.mapa-foto) se recorta con la silueta del país, como las letras del título.
+    El recorte es un clipPath dentro de la misma página (reusa las provincias con <use>), así funciona también
+    abriendo el archivo directo (file://), donde Chrome bloquea las máscaras que cargan un SVG externo."""
+    nombres = [n for n in MAP["paths"] if n != "Mendoza"]
+    otros = "".join(f'<path id="mp{i}" d="{MAP["paths"][n]}"/>' for i, n in enumerate(nombres))
+    usos = "".join(f'<use href="#mp{i}"/>' for i in range(len(nombres))) + '<use href="#mp-mza"/>'
     sx, sy = MAP["sanrafael"]
     return (
         f'<div class="mapa-fondo" style="--fx:{sx/W:.4f};--fy:{sy/H:.4f};--ar:{W/H:.4f}">'
         f'<div class="mapa-foto" aria-hidden="true"></div>'
         f'<svg class="mapa-svg" viewBox="0 0 {W:.0f} {H:.0f}" preserveAspectRatio="none" role="img" '
         f'aria-label="Mapa de Argentina con la provincia de Mendoza resaltada y San Rafael marcado">'
+        f'<defs><clipPath id="mapa-recorte" clipPathUnits="objectBoundingBox" transform="scale({1/W:.8f} {1/H:.8f})">{usos}</clipPath></defs>'
         f'<g class="mapa__prov">{otros}</g>'
-        f'<path class="mapa__mza" d="{MAP["paths"]["Mendoza"]}"/>'
+        f'<path class="mapa__mza" id="mp-mza" d="{MAP["paths"]["Mendoza"]}"/>'
         f'<circle class="mapa__pt-o" cx="{sx:.0f}" cy="{sy:.0f}" r="13"/>'
         f'<circle class="mapa__pt-i" cx="{sx:.0f}" cy="{sy:.0f}" r="6.5"/>'
         f'<text class="mapa__rotulo" x="{sx+19:.0f}" y="{sy+7:.0f}">San Rafael</text>'
@@ -54,7 +51,7 @@ page = f"""<!doctype html>
 <link rel="preload" href="assets/hero-leon-celular.webp" as="image" media="(max-width: 860px)" fetchpriority="high">
 <link rel="preload" href="assets/botella.webp" as="image">
 <link rel="preload" href="fonts/LibreBaskerville-Variable.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="styles.css?v=179">
+<link rel="stylesheet" href="styles.css?v=201">
 <noscript><style>.pie{{background-image:url("assets/pie-andes.webp")}}.reveal>*{{opacity:1!important;transform:none!important}}.ln>span{{transform:none!important}}.hero__cta>*{{opacity:1!important;transform:none!important}}</style></noscript>
 </head>
 <body>
@@ -158,7 +155,7 @@ page = f"""<!doctype html>
   <img class="mbotella" src="assets/botella.webp" alt="" aria-hidden="true" width="332" height="1200" loading="lazy" decoding="async">
 </section>
 
-<section class="card acc-envios" id="envios" aria-labelledby="t-envios">
+<section class="card acc-azul" id="envios" aria-labelledby="t-envios">
   <div class="card__grid">
     <div class="col col--izq reveal">
       <h2 class="h2" id="t-envios">Envíos</h2>
