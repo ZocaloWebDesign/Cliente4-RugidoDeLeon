@@ -607,3 +607,32 @@ html.lenis{scroll-behavior:auto}
         sin mayúsculas espaciadas ---- */
 .detalle,.notas .detalle{font:700 .9375rem/1.3 var(--serif);text-transform:none;letter-spacing:0}
 .hero__texto{font:400 clamp(.9375rem,1.15vw,1.0625rem)/1.5 var(--serif);text-transform:none;letter-spacing:0}
+
+/* =========================================================
+   Home "Andes de noche" (solo la home): lema a la izquierda, botella al centro, texto y botones a la derecha.
+   El menú, el botón de WhatsApp y su animación, y las secciones quedan como estaban.
+   ========================================================= */
+.capa{background-image:url("assets/hero-noche.webp")}
+.hero__fondo::after{background:linear-gradient(90deg,rgba(14,8,30,.62),rgba(14,8,30,0) 42%,rgba(14,8,30,0) 62%,rgba(14,8,30,.6))}
+.hero__titulo{left:var(--pad-x);right:auto;top:26vh;width:38vw;padding:0;text-align:left;font-size:clamp(2.4rem,4.7vw,5.8rem);line-height:1.08}
+.hero__titulo,.ln--lila,.hero__texto,.hero__ver{color:#fff}
+.hero__cta{left:auto;right:var(--pad-x);bottom:auto;top:40vh;width:min(26vw,360px);flex-direction:column;align-items:flex-start;gap:16px}
+.hero__texto{text-align:left;color:#fff;font-size:clamp(1rem,1.25vw,1.1875rem)}
+.hero__ver{display:inline-flex;align-items:center;min-height:52px;padding:0 24px;border:1px solid rgba(241,235,223,.45);border-radius:14px;font:600 1.0625rem/1 var(--sans);color:#fff;text-decoration:none;transition:background-color .16s ease}
+@media (hover:hover) and (pointer:fine){.hero__ver:hover{background:rgba(241,235,223,.12)}}
+
+/* en la home la botella apoya sobre la laja de la foto; al bajar vuelve a su altura de siempre (las secciones no cambian) */
+@supports (animation-timeline:scroll()){
+  @media (min-width:861px){
+    @keyframes botella-baja{from{translate:0 calc(var(--b-base) - max(16.7vh,9.4vw))}to{translate:0 0}}
+    .botella img,.botella::after{animation:botella-baja linear both;animation-timeline:scroll(root);animation-range:0 100vh}
+  }
+}
+@media (max-width:860px){
+  .capa{background-image:url("assets/hero-noche-celular.webp")}
+  .hero__fondo::after{background:none}
+  .hero__titulo{left:0;right:0;top:92px;width:auto;padding:0 var(--pad-x);text-align:center;font-size:clamp(2.1rem,9.4vw,3.2rem)}
+  .hero__cta{display:contents}
+  .hero__texto,.hero__ver{display:none}
+}
+.hero .nav,.hero .hero__legal,.hero .hero__cta .btn{color:#fff}
